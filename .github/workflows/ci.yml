@@ -8,10 +8,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Lighthouse
         uses: shopify/lighthouse-ci-action@1.0
-        env:
-          store: SHOP_STORE
-          access_token: SHOP_ACCESS_TOKEN
+        with:
+          store: bogdanupworktests.myshopify.com
+          access_token: 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
           password: dev
+          lhci_github_app_token: ${{ secrets.LHCI_GITHUB_TOKEN }}
           lhci_min_score_performance: 0.9
           lhci_min_score_accessibility: 0.9
   theme-check:
