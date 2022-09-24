@@ -1,0 +1,83 @@
+<div class="h-full flex items-center justify-center py-12 px-6 md:px-4 lg:px-8">
+	<div class="max-w-md w-full space-y-8">
+		<div class="">
+			<h1 class="text-center text-3xl font-bold mt-6">Register an account</h1>
+		</div>
+		<div class="mt-8">
+			{% form 'create_customer' %}
+				{% if form.errors %}
+					<div class="relative border border-red-400 bg-red-100 text-red-700 px-4 py-3" role="alert">
+						<strong class="font-bold">Error!</strong>
+						<p class="block sm:inline">{{ form.errors | default_errors }}</p>
+					</div>
+				{% endif %}
+				<div class="my-2">
+					<label for="first_name" class="sr-only">First name</label>
+					<input
+						type="text"
+						id="first_name"
+						name="customer[first_name]"
+						placeholder="First Name"
+						autocomplete="given-name"
+						class="relative block w-full px-3 py-2 border"
+					>
+				</div>
+				<div class="my-2">
+					<label for="last_name" class="sr-only">Last name</label>
+					<input
+						type="text"
+						id="last_name"
+						name="customer[last_name]"
+						placeholder="Last Name"
+						autocomplete="family-name"
+						class="relative block w-full px-3 py-2 border"
+					>
+				</div>
+				<div class="my-2">
+					<label for="birthday" class="sr-only">Birthday</label>
+					<input
+						type="date"
+						id="birthday"
+						name="customer[note][birthday]"
+						class="relative block w-full px-3 py-2 border"
+					>
+				</div>
+				<div class="my-2">
+					<label for="scam" class="sr-only">Scam</label>
+					<input
+						type="text"
+						id="scam"
+						name="customer[note][scam]"
+						class="relative block w-full px-3 py-2 border"
+					>
+				</div>
+				<div class="my-2">
+					<label for="email_address" class="sr-only">Email address</label>
+					<input
+						type="email"
+						id="email_address"
+						name="customer[email]"
+						placeholder="Email address"
+						autocomplete="email"
+						class="relative block w-full px-3 py-2 border"
+					>
+				</div>
+				<div class="my-2">
+					<label for="password" class="sr-only">Password</label>
+					<input
+						type="password"
+						id="password"
+						name="customer[password]"
+						placeholder="Password"
+						autocomplete="new-password"
+						class="relative block w-full px-3 py-2 border"
+					>
+				</div>
+				<button type="submit" class="relative w-full py-2 px-4 text-sm font-medium text-white bg-gray-600 hover:bg-gray-900">
+					Sign up
+				</button>
+			{% endform %}
+		</div>
+	</div>
+
+</div>

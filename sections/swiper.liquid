@@ -1,0 +1,61 @@
+{{ 'swiper.css' | asset_url | stylesheet_tag }}
+
+{{ 'swiper.js' | asset_url | script_tag }}
+
+<div class="swiper">
+  <div class="swiper-wrapper">
+		{% for block in section.blocks %}
+			{% assign item = block.settings %}
+			<div class="swiper-slide">
+				{% if item.image %}
+					{{ item.image | image_url: width: master | image_tag: loading: 'lazy' }}
+					{% else %}
+						{{ 'product-1' | placeholder_svg_tag }}
+				{% endif %}
+			</div>
+		{% endfor %}
+  </div>
+  <div class="swiper-pagination"></div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
+
+<script>
+	const swiperSlider = () => {
+		new Swiper('.swiper', {
+			slidesPerView: 3,
+			pagination: {
+				el: '.swiper-pagination',
+			},
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev',
+			},
+		});
+	}
+
+	swiperSlider();
+	
+	document.addEventListener('shopify:section:load', () => {
+		swiperSlider();
+	});
+</script>
+
+{% schema %}
+{
+	"name": "Subscribe Section",
+	"blocks": [
+		{
+			"name": "Slide",
+			"type": "item",
+			"settings": [
+				{
+					"type": "image_picker",
+					"id": "image",
+					"label": "Image"
+				}
+			]
+		}
+	]
+}
+{% endschema %}
