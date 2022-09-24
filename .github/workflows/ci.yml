@@ -1,19 +1,18 @@
-name: CI
-on: push
+name: Shopify Lighthouse CI
+on: [push]
 jobs:
   lhci:
     name: Lighthouse
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Lighthouse
-        uses: shopify/lighthouse-ci-action@1.0
-        with:
-          app_id: ${{ secrets.SHOP_APP_ID }}
-          app_password: ${{ secrets.SHOP_APP_PASSWORD }}
-          store: ${{ secrets.SHOP_STORE }}
-          password: ${{ secrets.SHOP_PASSWORD }}
-          lhci_github_app_token: ${{ secrets.LHCI_GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: Lighthouse
+      uses: shopify/lighthouse-ci-action@1.0
+      with:
+        app_id: ${{ secrets.SHOP_APP_ID }}
+        app_password: ${{ secrets.SHOP_APP_PASSWORD }}
+        store: ${{ secrets.SHOP_STORE }}
+        password: ${{ secrets.SHOP_PASSWORD }}
   theme-check:
     name: Theme Check
     runs-on: ubuntu-latest
