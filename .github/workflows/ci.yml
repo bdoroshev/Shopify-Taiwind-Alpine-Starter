@@ -9,9 +9,9 @@ jobs:
       - name: Lighthouse
         uses: shopify/lighthouse-ci-action@1.0
         with:
-          store: ENV['SHOP_STORE']
+          store: ${{ env.SHOP_STORE }}
           password: dev
-          access_token: ENV['SHOP_ACCESS_TOKEN']
+          access_token: ${{ env.SHOP_ACCESS_TOKEN }}
           lhci_github_app_token: ${{ secrets.LHCI_GITHUB_TOKEN }}
           lhci_min_score_performance: 0.9
           lhci_min_score_accessibility: 0.9
