@@ -1,12 +1,13 @@
 {
   "sections": {
-    "template": {
-      "type": "template-404",
+    "featured-collection": {
+      "type": "featured-collection",
       "settings": {
+        "featured_collection": "all"
       }
     }
   },
   "order": [
-    "template"
+    "featured-collection"
   ]
 }

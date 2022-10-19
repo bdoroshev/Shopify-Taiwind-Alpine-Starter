@@ -9,8 +9,11 @@ jobs:
       - name: Lighthouse
         uses: shopify/lighthouse-ci-action@1.0
         with:
+          ## Info to change
           store: bogdanupworktests.myshopify.com
           access_token: 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
+          ## end Info to change
+          
           password: dev
           lhci_min_score_performance: 0.9
           lhci_min_score_accessibility: 0.9

@@ -1,10 +1,10 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Store Name",
+    "theme_name": "Themekit template theme",
     "theme_version": "1.0.0",
-    "theme_author": "Bogdan Doroshev",
-    "theme_documentation_url": "https://www.upwork.com/freelancers/~01adae76a6fd6cd404",
-    "theme_support_url": "https://www.upwork.com/freelancers/~01adae76a6fd6cd404"
+    "theme_author": "Shopify",
+    "theme_documentation_url": "https:\/\/github.com\/Shopify\/themekit",
+    "theme_support_url": "https:\/\/github.com\/Shopify\/themekit\/issues"
   }
 ]
