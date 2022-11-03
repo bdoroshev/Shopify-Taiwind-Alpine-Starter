@@ -23,12 +23,17 @@
     {{ content_for_header }}
   </head>
 
-  <body class="text-textColor">
-    {% section 'announcement-bar' %}
-    {% section 'header' %}
-    <main role="main" tabindex="-1">
-      {{ content_for_layout }}
-    </main>
-		{% comment %} {% section 'footer' %} {% endcomment %}
+  <body class="text-textColor" :class="burgerOpen ? 'overflow-hidden' : ''" x-data="{ burgerOpen: false }">
+		<div class="w-full min-h-screen flex flex-col">
+			{% section 'announcement-bar' %}
+			<div class="sticky-header bg-white">
+    		{% section 'header' %}
+			</div>
+			<main role="main" class="flex-grow" tabindex="-1">
+				{{ content_for_layout }}
+			</main>
+			{% section 'subscribe-newsletter' %}
+			{% section 'footer' %}
+		</div>
   </body>
 </html>

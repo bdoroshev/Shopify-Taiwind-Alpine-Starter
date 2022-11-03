@@ -13,13 +13,59 @@
 	.container{
 		@apply max-w-[1240px]
 	}
+	.btn{
+		@apply text-white transition bg-accent px-10 h-[50px] rounded-xl hover:bg-[#004c3f] active:bg-[#002e25] focus:shadow-[0_0_0.1875em_0.1875em_rgba(0,128,96,0.5)] cursor-pointer
+	}
 }
 
 [x-cloak] {
 	display: none !important
 }
 
+.grecaptcha-badge{
+	display: none !important
+}
+
+.shopify-challenge__container{
+	min-height: 50vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.g-recaptcha{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
 /* Header Menu */
+
+
+.scroll-up{
+  transition: .3s ease all;
+}
+
+.scroll-up .sticky-header{
+	opacity: 1;
+}
+
+.sticky-header{
+	z-index: 22;
+	top: 0;
+	position: sticky;
+	width: 100%;
+	transition: .3s ease all;
+	left: 0;
+}
+
+.scroll-down{
+  transition: .3s ease all;
+}
+
+.scroll-down .sticky-header{
+	opacity: 0;
+	z-index: -1;
+ }
 
 .header{
 	grid-template-areas: "header-logo header-menu header-icons";
@@ -39,15 +85,17 @@
 	grid-area: header-menu;
 }
 
-.nav__item-submenu{
-	position: absolute;
-	background-color: #fff;
-	border: 1px solid #dadada;
-	padding: 20px;
-	min-width: 160px;
-	bottom: 0;
-	transform: translateY(100%);
-	left: 0;
+@media (min-width: 768px) {
+	.nav__item-submenu{
+		position: absolute;
+		background-color: #fff;
+		border: 1px solid #dadada;
+		padding: 15px;
+		min-width: 160px;
+		bottom: -10px;
+		transform: translateY(100%);
+		left: 0;
+	}
 }
 
 .header__icons{

@@ -1,7 +1,7 @@
 <header>
-	<div class="container">
-		<div class="header grid grid-cols-[1fr_2fr_1fr] items-center gap-[40px] py-[40px]">
-			<div class="header__logo">
+	<div class="container relative">
+		<div class="header grid grid-cols-[1fr_2fr_1fr] items-center py-[40px] md:py-[20px]">
+			<div class="header__logo z-10">
 				{% if section.settings.logo != blank %}
 					<a href="/">
 						{{ section.settings.logo | image_url: width: 200 | image_tag: loading: 'lazy' }}
@@ -13,43 +13,70 @@
 				{% endif %}
 			</div>
 
-			<nav class="header__menu flex justify-center" x-data>
-        <button class="header__menu-burger" @click="$dispatch('toggle-menu')" type="button"> 
-          <span></span>
-        </button>
+			<nav class="header__menu flex justify-center md:justify-start">
+				<button
+					:class="burgerOpen ? 'active' : ''"
+					@click="burgerOpen = !burgerOpen"
+					class="header__menu-burger" 
+					type="button"
+				>
+					<span></span>
+				</button>
+			
+				<ul
+					:class="burgerOpen ? 'md:left-0' : 'md:-left-[100vw]'"
+					x-cloak
+					class="header__menu-nav flex gap-[30px] transition-all top-0 md:flex-col md:absolute md:p-[20px] md:pt-[120px] md:bg-accent md:w-screen md:h-screen md:text-white md:overflow-auto"
+				>
+					{% for link in section.settings.menu.links %}
+						{% if link.links != blank %}
+							<li class="nav__item group relative" x-data="{ submenuOpen: false }">
+									<p
+										@click.stop="submenuOpen = !submenuOpen"
+										class="cursor-pointer flex gap-2 fill-textColor md:fill-white group-hover:text-accent group-hover:fill-accent md:group-hover:text-white md:group-hover:fill-white"
+									>
+										{{ link.title }} {% render 'icon-dropdown', class: 'w-4' %}
+									</p>
+									<ul
+										x-show="submenuOpen"
+										x-cloak
+										@click.outside="submenuOpen = false"
+										class="nav__item-submenu"
+									>
+										{% for sublink in linklists[link.handle].links %}
+											<li>
+												<a class="hover:text-accent md:hover:text-white" href="{{ sublink.url }}">
+													{{ sublink.title }}
+												</a>
+											</li>
+										{% endfor %}
+									</ul>
+							</li>
+						{% else %}
+							<li class="nav__item">
+								<a class="hover:text-accent" href="{{ link.url }}"> {{ link.title }}</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</nav>
 
-        <ul class="header__menu-nav flex gap-[30px]">
-          {% for link in section.settings.menu.links %}
-            {% if link.links != blank %}
-              <li class="nav__item group py-[10px] relative">
-                  <a class="hover:text-accent" href="{{ link.url }}">{{ link.title }}</a>
-                  <ul class="nav__item-submenu hidden group-hover:block">
-                    {% for sublink in linklists[link.handle].links %}
-                      <li>
-                        <a class="hover:text-accent" href="{{ sublink.url }}">
-                          {{ sublink.title }}
-                        </a>
-                      </li>
-                    {% endfor %}
-                  </ul>
-              </li>
-            {% else %}
-              <li class="nav__item py-[10px]">
-                <a class="hover:text-accent" href="{{ link.url }}"> {{ link.title }}</a>
-              </li>
-            {% endif %}
-          {% endfor %}
-        </ul>
-      </nav>
-
-			<div class="header__icons flex items-center justify-end gap-5"
+			<div class="header__icons flex items-center justify-end gap-3"
         x-data="{ cart_count: {{ cart.item_count }} }"
         @cart-count-updated.window="cart_count = $event.detail">
+				<button 
+					type="button"
+					title="Search button"
+					@click="$dispatch('toggle-cart')"
+				>
+						{% render 'icon-search', class: 'w-10 stroke-textColor hover:stroke-accent' %}
+				</button>
+
         {%- if shop.customer_accounts_enabled -%}
-          <div class="relative account-menu-wrapper z-10">
+          <div class="relative account-menu-wrapper">
             <a href="{{ routes.account_url }}" 
               title="account link"
-              class="header__icon block text-center">
+						>
               {% render 'icon-account', class: 'w-10 mx-auto stroke-textColor hover:stroke-accent' %}
             </a>
           </div>
@@ -59,14 +86,44 @@
             type="button"
             title="Cart button"
             @click="$dispatch('toggle-cart')"
-            class="header__icon text-center relative group">
-              {% render 'icon-cart', class: 'w-10 stroke-textColor group-hover:stroke-accent' %}
-              <span x-text="cart_count" class="cart__count min-w-[22px] text-sm min-h-[22px] absolute grid place-content-center rounded-full -top-3 -right-1 text-white bg-black group-hover:bg-accent"> {{ cart.item_count }} </span>
+            class="text-center relative group"
+					>
+						{% render 'icon-cart', class: 'w-10 stroke-textColor group-hover:stroke-accent' %}
+						<span x-text="cart_count" class="cart__count min-w-[22px] text-sm min-h-[22px] absolute grid place-content-center rounded-full -top-3 -right-1 text-white bg-black group-hover:bg-accent"> {{ cart.item_count }} </span>
           </button>
       </div>
 		</div>
 	</div>
 </header>
+
+<script>
+	const body = document.body;
+	const scrollUp = "scroll-up";
+	const scrollDown = "scroll-down";
+	let lastScroll = 0;
+	
+	window.addEventListener("scroll", () => {
+		const currentScroll = window.pageYOffset;
+		if (currentScroll <= 0) {
+			body.classList.remove(scrollUp);
+			return;
+		}
+	
+		if (currentScroll > lastScroll && !body.classList.contains(scrollDown)) {
+			// down
+			body.classList.remove(scrollUp);
+			body.classList.add(scrollDown);
+		} else if (
+			currentScroll < lastScroll &&
+			body.classList.contains(scrollDown)
+		) {
+			// up
+			body.classList.remove(scrollDown);
+			body.classList.add(scrollUp);
+		}
+		lastScroll = currentScroll;
+	});
+</script>
 
 {% schema %}
 	{

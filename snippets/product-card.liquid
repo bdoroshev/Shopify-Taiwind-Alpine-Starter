@@ -1,0 +1,36 @@
+<div class="group flex flex-col">
+	<a href="{{ product.url }}">
+		{% if product.featured_image %}
+			{{ product.featured_image | image_url: width: master | image_tag: loading: 'lazy', class: image_class }}
+				{% else %}
+					{{ 'product-1' | placeholder_svg_tag: image_class }}
+			{% endif %}
+	</a>
+	<a href="{{ product.url }}">
+		<h2 class="text-xl my-3 group-hover:text-accent">{{ product.title }}</h2>
+	</a>
+	<p class="mb-3">
+		{% if product.price_max > product.price_min %}
+			{{ product.price_min | money }} - {{ product.price_max | money }}
+			{% else %}
+				{{ product.price | money }}
+		{% endif %}
+	</p>
+	<form method="post" action="/cart/add" class="mt-auto">
+		<input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+		<input min="1" type="hidden" id="quantity" name="quantity" value="1"/>
+		<button 
+			type="submit"
+			name="add"
+			class="btn"
+			{% unless product.variants.first.available %}
+				disabled
+			{% endunless %} >
+			{% unless product.variants.first.available%}
+				Coming Soon
+				{% else %}
+					Add to Cart
+			{% endunless %}
+		</button>
+	</form> 
+</div>

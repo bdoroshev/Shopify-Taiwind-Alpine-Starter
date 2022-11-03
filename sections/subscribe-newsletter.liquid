@@ -1,0 +1,36 @@
+<div class="border py-8 mt-10 text-center" style="background-color: {{ section.settings.bg_color }}">
+	<div class="container" style="color: {{ section.settings.color }}">
+		{{ section.settings.text }}
+		{% form 'customer' %}
+			<div class="flex align-center justify-center mt-3">
+				<input class="block border rounded-xl rounded-r-none border-r-0 px-3 h-[50px] outline-accent" type="email" name="contact[email]" placeholder="Email" />
+				<button type="submit" class="btn rounded-l-none">Subscribe</button>
+			</div>
+		{% endform %}
+	</div>
+	
+</div>
+
+{% schema %}
+	{
+		"name": "Subscribe Newsletter",
+		"settings": [
+			{
+				"type": "richtext",
+				"id": "text",
+				"label": "Subscribe Newsletter Text",
+				"default": "<p>Subscribe to our emails</p>"
+			},
+			{
+				"type": "color",
+				"id": "bg_color",
+				"label": "Subscribe Newsletter Background Color"
+			},
+			{
+				"type": "color",
+				"id": "color",
+				"label": "Subscribe Newsletter Text Color"
+			}
+		]
+	}
+{% endschema %}
