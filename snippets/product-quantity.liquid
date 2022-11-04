@@ -1,0 +1,17 @@
+<div 
+	class="inline-flex text-2xl font-bold items-center border rounded"
+	x-data="{ 
+		quantity: {% if product.quantity > 1 %} {{ product.quantity }} {% else %} 1 {% endif %}
+	}"
+>
+	
+	<button class="px-5 py-2 border-r cursor-pointer" @click.prevent="if(quantity > 1){quantity--}">
+		<span class="sr-only">decrease quantity</span>
+		-
+	</button>
+	<input type="number" class="product__number text-center max-w-[60px] w-full" name="quantity" value="1" min="1" onkeydown="return false"  x-model="quantity" />
+	<button class="px-5 py-2 border-l cursor-pointer" @click.prevent="quantity++">
+		<span class="sr-only">increase quantity</span>
+		+
+	</button>
+</div>

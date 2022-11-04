@@ -1,0 +1,198 @@
+<div class="container">
+	<div class="grid grid-cols-2 gap-10 md:grid-cols-1 md:gap-5">
+		<div class="flex overflow-x-scroll snap-x snap-mandatory">
+			<div class="snap-start">
+				{% for media in product.media %}
+					{% render 'product-media', media: media %}
+				{% endfor %}
+			</div>
+		</div>
+		<div>
+			{% for block in section.blocks %}
+				{% case block.type %}
+
+					{%- when '@app' -%}
+						{% render block %}
+
+					{% when "vendor" %}
+						<div class="my-3">
+							<span class="text-xs">
+								{{ product.vendor }}
+							</span>
+						</div>
+
+					{% when 'title' %}
+						<div class="my-3">
+							<h1 class="text-3xl">{{ product.title }}</h1>
+						</div>
+						
+					{% when 'description' %}
+						<p class="my-3">
+							{{ product.description }}
+						</p>
+
+					{% when 'variant_selector' %}
+						<div class="my-3">
+							{% unless product.has_only_default_variant %}
+								<variant-selector data-url="{{ product.url }}" data-section="{{ section.id }}">
+									{% for option in product.options_with_values %}
+										<label for="Option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label>
+										<div class="my-2">
+											<select
+												name="options[{{ option.name | escape }}]"
+												id="Option-{{ section.id }}-{{ forloop.index0 }}"
+												class="w-full border py-3 px-3"
+											>
+												{% for value in option.values %}
+													<option
+														value="{{ value | escape }}"
+														{% if option.selected_value == value %}
+															selected="selected"
+														{% endif %}
+													>
+														{{ value }}
+													</option>
+												{% endfor %}
+											</select>
+										</div>
+
+										<script type="application/json">
+											{{ product.variants | json }}
+										</script>
+										
+									{% endfor %}
+								</variant-selector>
+							{% endunless %}
+						</div>
+					
+					{% when 'quantity' %}
+						<div class="my-3">
+							<p class="font-bold mb-1">Quantity</p>
+							{% render 'product-quantity', product: product %}
+						</div>
+
+					{% when 'price' %}
+						<div class="my-3 font-bold text-4xl text-accent">
+							{% if product.compare_at_price > product.price -%}
+								<s class="text-red-700"> {{ product.compare_at_price | money }}</s>
+							{% endif %}
+							{{ product.price | money }}
+						</div>
+
+					{% when 'checkout_buttons' %}
+						<div x-data="{ 
+								quantity: 1,
+                addToCart(){
+                  let formData = new FormData($refs.product_form);
+                  fetch('/cart/add.js', {
+                      method: 'POST',
+                      body: formData
+                    })
+                    .then(response => {
+                      return response.json();
+                    })
+                    .then(response => {
+                      
+                    })
+                    .catch((error) => {
+                      console.error('Error:', error);
+                    });
+                }
+              }"
+						>
+							{% form 'product', product, id: product_form_id , novalidate: 'novalidate', x-ref: 'product_form' %}
+								<input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+								<input type="hidden" name="quantity" x-model="quantity" value="1">
+								<button 
+									type="button"
+									name="add"
+									class="btn w-full my-3"
+									@click="addToCart()"
+									{% unless product.variants.first.available %}
+										disabled
+									{% endunless %} >
+									{% unless product.variants.first.available%}
+										{{ block.settings.sold_out }}
+										{% else %}
+											{{ block.settings.add_to_cart }}
+									{% endunless %}
+								</button>
+
+								{% if block.settings.dynamic_buttons %}
+									{{ form | payment_button }}
+								{% endif %}
+
+							{% endform %}
+						</div>
+
+				{% endcase %}
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+{% schema %}
+{
+	"name": "Product",
+	"blocks": [
+		{
+			"type": "@app"
+		},
+		{
+			"type": "vendor",
+			"name": "Vendor",
+			"limit": 1
+		},
+		{
+			"type": "title",
+			"name": "Title",
+			"limit": 1
+		},
+		{
+			"type": "description",
+			"name": "Description",
+			"limit": 1
+		},
+		{
+			"type": "variant_selector",
+			"name": "Variant Selector",
+			"limit": 1
+		},
+		{
+			"type": "quantity",
+			"name": "Quantity",
+			"limit": 1
+		},
+		{
+			"type": "price",
+			"name": "Price",
+			"limit": 1
+		},
+		{
+			"type": "checkout_buttons",
+			"name": "Checkout Buttons",
+			"limit": 1,
+			"settings": [
+				{
+					"type": "text",
+					"id": "add_to_cart",
+					"label": "Add to cart button text",
+					"default": "Add to Cart"
+				},
+				{
+					"type": "text",
+					"id": "sold_out",
+					"label": "Sold Out button text",
+					"default": "Sold Out"
+				},
+				{
+					"type": "checkbox",
+					"id": "dynamic_buttons",
+					"label": "Allow Dynamic Buttons",
+					"default": false
+				}
+			]
+		}
+	]
+}
+{% endschema %}

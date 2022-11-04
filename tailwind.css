@@ -7,6 +7,13 @@
 		font-family: 'Roboto', sans-serif;
 		scroll-behavior: smooth;
 	}
+	input[type='number']::-webkit-outer-spin-button,
+	input[type='number']::-webkit-inner-spin-button,
+	input[type='number'] {
+		-webkit-appearance: none;
+		margin: 0;
+		-moz-appearance: textfield !important;
+	}
 }
 
 @layer components{
@@ -14,8 +21,12 @@
 		@apply max-w-[1240px]
 	}
 	.btn{
-		@apply text-white transition bg-accent px-10 h-[50px] rounded-xl hover:bg-[#004c3f] active:bg-[#002e25] focus:shadow-[0_0_0.1875em_0.1875em_rgba(0,128,96,0.5)] cursor-pointer
+		@apply text-white transition bg-accent px-10 md:px-2 md:w-full py-3 rounded-xl hover:bg-[#004c3f] active:bg-[#002e25] focus:shadow-[0_0_0.1875em_0.1875em_rgba(0,128,96,0.5)] cursor-pointer
 	}
+}
+
+.shopify-payment-button__button{
+	@apply opacity-100 text-white transition bg-textColor px-10 md:px-2 md:w-full py-3 rounded-xl hover:bg-[#000] cursor-pointer !important
 }
 
 [x-cloak] {
