@@ -1,0 +1,34 @@
+{% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
+<div class="collection__sort flex justify-end relative" 
+	x-data="{
+		loading: false,
+		sort: '{{ sort_by }}',
+		sortCollection(){
+			this.loading = true;
+			fetch('/collections/{{ collection.handle }}?sort_by=' + this.sort)
+				.then(response => response.text())
+				.then(data => {
+					let html_div = document.createElement('div');
+					html_div.innerHTML = data;
+
+					let html_dom = html_div.querySelector('.ajax-collection').innerHTML;
+					document.querySelector('.ajax-collection').innerHTML = html_dom;
+					// update url without refreshing the page 
+					history.replaceState(null, null, '?sort_by=' + this.sort);
+				})
+				.catch(error => console.error('Error:', error))
+				.finally(() => this.loading = false);
+		}
+	}">
+	
+	{% render 'loader' %}
+
+	<select id="sort-by" x-model="sort" @change="sortCollection()" class="py-3 px-4 border rounded md:w-full">
+		{% for option in collection.sort_options %}
+			<option value="{{ option.value }}" {% if option.value == sort_by %}selected="selected"{% endif %}>
+				{{ option.name }}
+			</option>
+		{% endfor %}
+	</select>
+	
+</div>

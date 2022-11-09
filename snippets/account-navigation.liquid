@@ -1,0 +1,26 @@
+<ul class="flex flex-col w-full text-base font-medium divide-y divide-gray-300">
+	<li class="my-px"> 
+			<a href="{{ routes.account_url }}" 
+					class="{% if request.path == '/account' %} text-accent {% endif %}
+					inline-block py-2 hover:text-accent">
+					<span>Account Details</span>
+			</a>
+	</li>
+
+	
+	<li class="my-px">
+			<a href="{{ routes.account_addresses_url }}" 
+					class="{% if request.path == '/account/addresses' %} text-accent {% endif %}
+					inline-block py-2 hover:text-accent">
+					<span>View Addresses ({{ customer.addresses_count }}) </span>
+			</a>
+	</li>
+	
+	<li class="my-px">
+			<a href="{{ routes.account_logout_url }}" 
+					class="inline-block py-2 underline hover:text-accent">
+					<span>Logout </span>
+			</a>
+	</li>
+
+</ul>

@@ -1,0 +1,29 @@
+
+
+<div class="container"
+	@cart-updated.window="updateCart;"
+	x-data="{
+		loading: false,
+		updateCart(){
+				fetch('/?view=ajax-cart-page')
+				.then(response => response.text())
+				.then(cartData => {
+						$refs.cart_content.innerHTML = cartData;
+						this.loading = false;
+				})
+		}
+	}">
+
+	<div class="py-4 flex items-center justify-between">
+		<h1 class="title text-3xl">Cart</h1>
+	</div>
+
+	<hr>
+
+	{% render 'loader' %}
+
+	<div class="" x-ref="cart_content">
+		{% render 'cart-page-content' %}
+	</div>
+
+</div>

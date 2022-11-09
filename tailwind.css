@@ -23,6 +23,9 @@
 	.btn{
 		@apply text-white transition bg-accent px-10 md:px-2 md:w-full py-3 rounded-xl hover:bg-[#004c3f] active:bg-[#002e25] focus:shadow-[0_0_0.1875em_0.1875em_rgba(0,128,96,0.5)] cursor-pointer
 	}
+	.input{
+		@apply border rounded-xl px-4 h-[50px]
+	}
 }
 
 .shopify-payment-button__button{

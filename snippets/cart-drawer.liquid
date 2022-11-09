@@ -1,5 +1,17 @@
 <div
-	x-data="{ showCartDrawer: false }"
+	x-data="{ 
+		showCartDrawer: false,
+		loading: false,
+		updateCart(){
+			fetch('/?view=ajax-cart-drawer')
+			.then(response => response.text())
+			.then(cartData => {
+				$refs.cart_drawer_content.innerHTML = cartData;
+				this.loading = false;
+			})
+		}
+	}"
+	@update-cart.window="updateCart"
 	@toggle-cart.window="showCartDrawer = !showCartDrawer"
 >
 	<div 
@@ -14,52 +26,19 @@
 		:class="showCartDrawer ? 'right-0' : '-right-[100vw]'"
 		class="p-5 transition-all z-30 bg-white fixed top-0 w-[500px] md:w-full h-screen"
 	>
-		<div class="flex items-center justify-between">
-			<h2 class="text-3xl font-bold mb-4">Cart</h2>
+		<div class="flex items-center justify-between mb-4">
+			<h2 class="text-3xl font-bold">Cart</h2>
 			<span 
 				class="cursor-pointer"
 				@click="showCartDrawer = false; document.body.classList.remove('overflow-hidden')"
 			>
-				x
+				{% render 'icon-close', class: 'max-w-[30px] fill-textColor hover:fill-accent' %}
 			</span>
 		</div>
-		<form action="{{ routes.cart_url }}" method="POST">
-			<div class="max-h-[70vh] overflow-y-auto">
-				{% for item in cart.items %}
-					<div class="grid grid-cols-[1fr_2fr] items-center gap-5 mb-5 {% unless forloop.last %} pb-5 border-b {% endunless %}">
-						<a href="{{ item.url }}">
-							{% if item.image %}
-								{{ item.image | image_url: width: master | image_tag: loading: 'lazy' }}
-									{% else %}
-										{{ 'product-1' | placeholder_svg_tag }}
-								{% endif %}
-							<div>
-						</a>
-							<h3 class="font-bold hover:text-accent"><a href="{{ item.url }}">{{ item.title }}</a></h3>
-							<p>{{ item.final_line_price | money }}</p>
-							<div class="flex items-center gap-3">
-								{% render 'product-quantity' %}
-								<a href="{{ routes.cart_change_url }}?id={{ item.key }}&quantity=0" 
-									class="text-sm underline hover:text-accent"
-								>
-									Remove
-								</a>
-							</div>
-						</div>
-					</div>
-				{% endfor %}
-			</div>
-			<div class="flex justify-between my-3">
-				<h3 class="font-bold text-xl">Subtotal:</h3>
-				<p class="font-bold text-xl text-accent">{{ cart.total_price | money }}</p>
-			</div>
-			<button type="submit" name="checkout" class="btn w-full">Checkout</button>
-		</form>
-		{% comment %} <div class="flex flex-col justify-center items-center gap-5 h-[70vh]">
-			<h3 class="text-3xl font-bold">Your cart is empty</h3>
-			<a href="{{ routes.all_products_collection_url }}" class="btn">
-				Continue shopping
-			</a>
-		</div> {% endcomment %}
+		{% render 'loader' %}
+		<div x-ref="cart_drawer_content" >
+			{% render 'cart-drawer-content' %}
+		</div>
+
 	</div>
 </div>

@@ -1,13 +1,10 @@
 {
   "sections": {
-    "featured-collection": {
-      "type": "featured-collection",
-      "settings": {
-        "featured_collection": "all"
-      }
+    "cart-items": {
+      "type": "cart-page"
     }
   },
   "order": [
-    "featured-collection"
+    "cart-items"
   ]
 }

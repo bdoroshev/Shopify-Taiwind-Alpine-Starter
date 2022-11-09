@@ -1,0 +1,186 @@
+<variant-radios class="no-js-hidden" data-section="{{ section.id }}" data-url="{{ product.url }}" {{ block.shopify_attributes }}>
+	{%- for option in product.options_with_values -%}
+			<fieldset class="js product-form__input mb-3">
+				<h5 class="font-bold mb-1">Select {{ option.name }}: </h5>
+				<div class="flex items-center gap-[10px] flex-wrap">
+					{%- for value in option.values -%}
+						<div>
+							<input type="radio" id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+										name="{{ option.name }}"
+										value="{{ value | escape }}"
+										form="{{ product_form_id }}"
+										class="sr-only peer"
+										{% if option.selected_value == value %}checked{% endif %}
+							>
+							<label 
+								for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+								class="block cursor-pointer border rounded-2xl py-2 px-6 hover:bg-accent hover:border-accent hover:text-white peer-checked:bg-accent peer-checked:border-accent peer-checked:text-white"
+							>
+								{{ value }}
+							</label>
+						</div>
+					{%- endfor -%}
+				</div>
+			</fieldset>
+	{%- endfor -%}
+	<script type="application/json">
+		{{ product.variants | json }}
+	</script>
+</variant-radios>
+
+<script>
+	class VariantSelects extends HTMLElement {
+		constructor() {
+			super();
+			this.addEventListener('change', this.onVariantChange);
+		}
+	
+		onVariantChange() {
+			this.updateOptions();
+			this.updateMasterId();
+			this.toggleAddButton(true, '', false);
+			this.updatePickupAvailability();
+			this.removeErrorMessage();
+	
+			if (!this.currentVariant) {
+				this.toggleAddButton(true, '', true);
+			} else {
+				// this.updateMedia();
+				this.setUnavailable();
+				this.updateURL();
+				this.updateVariantInput();
+				this.renderProductInfo();
+				this.updateShareUrl();
+			}
+		}
+	
+		updateOptions() {
+			this.options = Array.from(this.querySelectorAll('select'), (select) => select.value);
+		}
+	
+		updateMasterId() {
+			this.currentVariant = this.getVariantData().find((variant) => {
+				return !variant.options.map((option, index) => {
+					return this.options[index] === option;
+				}).includes(false);
+			});
+		}
+	
+		// updateMedia() {
+		//   if (!this.currentVariant) return;
+		//   if (!this.currentVariant.featured_media) return;
+	
+		//   const mediaGallery = document.getElementById(`MediaGallery-${this.dataset.section}`);
+		//   mediaGallery.setActiveMedia(`${this.dataset.section}-${this.currentVariant.featured_media.id}`, true);
+	
+		//   const modalContent = document.querySelector(`#ProductModal-${this.dataset.section} .product-media-modal__content`);
+		//   if (!modalContent) return;
+		//   const newMediaModal = modalContent.querySelector( `[data-media-id="${this.currentVariant.featured_media.id}"]`);
+		//   modalContent.prepend(newMediaModal);
+		// }
+	
+		updateURL() {
+			if (!this.currentVariant || this.dataset.updateUrl === 'false') return;
+			window.history.replaceState({ }, '', `${this.dataset.url}?variant=${this.currentVariant.id}`);
+		}
+	
+		updateShareUrl() {
+			const shareButton = document.getElementById(`Share-${this.dataset.section}`);
+			if (!shareButton || !shareButton.updateUrl) return;
+			shareButton.updateUrl(`${window.shopUrl}${this.dataset.url}?variant=${this.currentVariant.id}`);
+		}
+	
+		updateVariantInput() {
+			const productForms = document.querySelectorAll(`#product-form-${this.dataset.section}, #product-form-installment-${this.dataset.section}`);
+			productForms.forEach((productForm) => {
+				const input = productForm.querySelector('input[name="id"]');
+				input.value = this.currentVariant.id;
+				input.dispatchEvent(new Event('change', { bubbles: true }));
+			});
+		}
+	
+		updatePickupAvailability() {
+			const pickUpAvailability = document.querySelector('pickup-availability');
+			if (!pickUpAvailability) return;
+	
+			if (this.currentVariant && this.currentVariant.available) {
+				pickUpAvailability.fetchAvailability(this.currentVariant.id);
+			} else {
+				pickUpAvailability.removeAttribute('available');
+				pickUpAvailability.innerHTML = '';
+			}
+		}
+	
+		removeErrorMessage() {
+			const section = this.closest('section');
+			if (!section) return;
+	
+			const productForm = section.querySelector('product-form');
+			if (productForm) productForm.handleErrorMessage();
+		}
+	
+		renderProductInfo() {
+			fetch(`${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`)
+				.then((response) => response.text())
+				.then((responseText) => {
+					const html = new DOMParser().parseFromString(responseText, 'text/html')
+					const destination = document.getElementById(`price-${this.dataset.section}`);
+					const source = html.getElementById(`price-${this.dataset.originalSection ? this.dataset.originalSection : this.dataset.section}`);
+					if (source && destination) destination.innerHTML = source.innerHTML;
+	
+					const price = document.getElementById(`price-${this.dataset.section}`);
+				});
+		}
+	
+		toggleAddButton(disable = true, text, modifyClass = true) {
+			const productForm = document.getElementById(`product-form-${this.dataset.section}`);
+			if (!productForm) return;
+			const addButton = productForm.querySelector('[name="add"]');
+			const addButtonText = productForm.querySelector('[name="add"] > span');
+			if (!addButton) return;
+	
+			if (disable) {
+				addButton.setAttribute('disabled', 'disabled');
+				if (text) addButtonText.textContent = text;
+			} else {
+				addButton.removeAttribute('disabled');
+				addButtonText.textContent = window.variantStrings.addToCart;
+			}
+	
+			if (!modifyClass) return;
+		}
+	
+		setUnavailable() {
+			const button = document.querySelector('.product-section__cart-button');
+			if (!this.currentVariant.available) {
+				button.innerText = "Sold out";
+				button.setAttribute('disabled', '');
+			} else{
+					button.innerText = "Add to Cart";
+					button.removeAttribute('disabled', '');
+				}
+		}
+	
+		getVariantData() {
+			this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent);
+			return this.variantData;
+		}
+	}
+	
+	customElements.define('variant-selects', VariantSelects);
+	
+	class VariantRadios extends VariantSelects {
+		constructor() {
+			super();
+		}
+	
+		updateOptions() {
+			const fieldsets = Array.from(this.querySelectorAll('fieldset'));
+			this.options = fieldsets.map((fieldset) => {
+				return Array.from(fieldset.querySelectorAll('input')).find((radio) => radio.checked).value;
+			});
+		}
+	}
+	
+	customElements.define('variant-radios', VariantRadios);
+	</script>

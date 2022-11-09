@@ -1,0 +1,43 @@
+{{ 'swiper.css' | asset_url | stylesheet_tag }}
+
+<div class="product-swiper swiper relative !h-fit">
+  <div class="swiper-wrapper">
+			{% for media in product.media %}
+				<div class="swiper-slide">
+					{% render 'product-media', media: media, class: 'w-full min-w-full' %}
+				</div>
+			{% endfor %}
+  </div>
+  <div class="swiper-button-prev !text-accent"></div>
+  <div class="swiper-button-next !text-accent"></div>
+</div>
+<div class="product-swiper__thumbnails swiper mt-5">
+	<div class="swiper-wrapper">
+		{% for media in product.media %}
+			<div class="swiper-slide">
+				{% render 'product-media', media: media, class: 'w-full min-w-full cursor-pointer h-32 object-cover' %}
+			</div>
+		{% endfor %}
+	</div>
+</div>
+{{ 'swiper.js' | asset_url | script_tag }}
+
+<script>
+const productSwiperThumbs = new Swiper(".product-swiper__thumbnails", {
+	spaceBetween: 10,
+	slidesPerView: 4,
+	freeMode: true,
+	watchSlidesProgress: true
+});
+
+const productSwiper = new Swiper('.product-swiper', {
+	autoHeight: true,
+	navigation: {
+		nextEl: '.swiper-button-next',
+		prevEl: '.swiper-button-prev',
+	},
+	thumbs: {
+		swiper: productSwiperThumbs
+	}
+});
+</script>

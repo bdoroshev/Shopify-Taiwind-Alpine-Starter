@@ -10,21 +10,27 @@
 		<h3 class="text-xl my-3 font-bold group-hover:text-accent">{{ product.title }}</h3>
 	</a>
 	{% render 'collection-product-price', product: product, class: 'mb-3' %}
-	<form method="post" action="/cart/add" class="mt-auto">
-		<input type="hidden" name="id" value="{{ product.variants.first.id }}" />
-		<input min="1" type="hidden" id="quantity" name="quantity" value="1"/>
-		<button 
-			type="submit"
-			name="add"
-			class="btn"
-			{% unless product.variants.first.available %}
-				disabled
-			{% endunless %} >
-			{% unless product.variants.first.available%}
-				Coming Soon
-				{% else %}
-					Add to Cart
-			{% endunless %}
-		</button>
-	</form>
+	<div
+		class="mt-auto"
+		x-data
+	>
+		<form method="post" action="/cart/add" x-ref="product_form">
+			<input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+			<input min="1" type="hidden" id="quantity" name="quantity" value="1"/>
+			<button 
+				type="submit"
+				name="add"
+				class="btn"
+				@click.prevent="Functions.addToCart($refs.product_form)"
+				{% unless product.variants.first.available %}
+					disabled
+				{% endunless %} >
+				{% unless product.variants.first.available%}
+					Coming Soon
+					{% else %}
+						Add to Cart
+				{% endunless %}
+			</button>
+		</form>
+	</div>
 </div>

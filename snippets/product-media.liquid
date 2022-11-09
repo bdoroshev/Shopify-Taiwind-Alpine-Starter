@@ -1,12 +1,12 @@
 {% case media.media_type %}
 	{% when 'image' %}
-		{{ media | image_url: width: master | image_tag: loading: 'lazy' }}
+		{{ media | image_url: width: master | image_tag: loading: 'lazy', class: class }}
 
 	{% when 'video' %}
-		{{ media | video_tag: class: 'w-full', controls: true }}
+		{{ media | video_tag: controls: true, class: class }}
 
 	{% when 'external_video' %}
-		{{ media | external_video_tag }}
+		{{ media | external_video_tag: class: class }}
 
 	{% when 'model' %}
 		<product-model>
@@ -15,7 +15,7 @@
 					<span class="border bg-gray-100 absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
 						{% render 'icon-model-viewer' %}
 					</span>
-					<img src="{{ media | img_url: 'large' }}" alt="{{ media.preview_image.alt }}" class="w-full h-full object-cover">
+					<img src="{{ media | img_url: 'large' }}" alt="{{ media.preview_image.alt }}" class="w-full h-full object-cover {{ class }}">
 				</button>
 			</div>
 			<template>

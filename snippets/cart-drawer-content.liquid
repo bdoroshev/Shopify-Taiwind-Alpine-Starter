@@ -1,0 +1,48 @@
+{% if cart.item_count > 0 %}
+	<form action="{{ routes.cart_url }}" method="POST">
+		<div class="max-h-[70vh] overflow-y-auto">
+			{% for item in cart.items %}
+				<div class="grid grid-cols-[1fr_2fr] items-center gap-5 mb-5 {% unless forloop.last %} pb-5 border-b {% endunless %}">
+					<a href="{{ item.url }}">
+						{% if item.image %}
+							{{ item.image | image_url: width: master | image_tag: loading: 'lazy' }}
+								{% else %}
+									{{ 'product-1' | placeholder_svg_tag }}
+							{% endif %}
+						<div>
+					</a>
+						<h3 class="font-bold hover:text-accent"><a href="{{ item.url }}">{{ item.product.title }}</a></h3>
+						{% if item.variant.title != 'Default Title' and item.variant.title != 'No Color / OS' and item.variant.title != 'NC / OS' %}
+							<div class="text-xs mt-1 mb-2">{{ item.variant.title }}</div>
+						{% endif %}
+						<p>{{ item.final_line_price | money }}</p>
+						<div class="flex items-center gap-3">
+							{% render 'product-quantity', product: item, product_index: forloop.index, cart_page: true %}
+							<button 
+								type="button"
+								title="remove {{ item.title }}"
+								class="text-sm underline hover:text-accent"
+								@click.debounce="loading = true; Functions.changeQuantity({{ forloop.index }}, 0)"
+							>
+								Remove
+							</button>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="flex justify-between my-3">
+			<h3 class="font-bold text-xl">Subtotal:</h3>
+			<p class="font-bold text-xl text-accent">{{ cart.total_price | money }}</p>
+		</div>
+		<button type="submit" name="checkout" class="btn w-full">Checkout</button>
+	</form>
+	{% else %}
+		<div class="flex flex-col justify-center items-center gap-5 h-[70vh]">
+			{% render 'icon-cart', class: 'mx-auto w-20 h-20' %}
+			<h3 class="text-3xl font-bold">Your cart is empty</h3>
+			<a href="{{ routes.all_products_collection_url }}" class="btn">
+				Continue shopping
+			</a>
+		</div>
+{% endif %}
