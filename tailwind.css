@@ -20,22 +20,19 @@
 	.container{
 		@apply max-w-[1240px]
 	}
-	.btn{
-		@apply text-white transition bg-accent px-10 md:px-2 md:w-full py-3 rounded-xl hover:bg-[#004c3f] active:bg-[#002e25] focus:shadow-[0_0_0.1875em_0.1875em_rgba(0,128,96,0.5)] cursor-pointer
+	.button, .shopify-challenge__button{
+		@apply text-white transition bg-accent px-10 md:px-2 md:w-full py-3 rounded-xl hover:bg-[#004c3f] active:bg-[#002e25] focus:shadow-[0_0_0.1875em_0.1875em_rgba(0,128,96,0.5)] cursor-pointer text-center
 	}
 	.input{
 		@apply border rounded-xl px-4 h-[50px]
 	}
 }
 
-.shopify-payment-button__button{
-	@apply opacity-100 text-white transition bg-textColor px-10 md:px-2 md:w-full py-3 rounded-xl hover:bg-[#000] cursor-pointer !important
-}
-
 [x-cloak] {
 	display: none !important
 }
 
+/* Basic Shopify Classes styling */
 .grecaptcha-badge{
 	display: none !important
 }
@@ -45,126 +42,15 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.shopify-payment-button__button{
+	@apply opacity-100 text-white transition bg-textColor px-10 md:px-2 md:w-full py-3 rounded-xl hover:bg-[#000] cursor-pointer !important
 }
 
 .g-recaptcha{
 	margin-top: 20px;
 	margin-bottom: 20px;
-}
-
-/* Header Menu */
-
-
-.scroll-up{
-  transition: .3s ease all;
-}
-
-.scroll-up .sticky-header{
-	opacity: 1;
-}
-
-.sticky-header{
-	z-index: 22;
-	top: 0;
-	position: sticky;
-	width: 100%;
-	transition: .3s ease all;
-	left: 0;
-}
-
-.scroll-down{
-  transition: .3s ease all;
-}
-
-.scroll-down .sticky-header{
-	opacity: 0;
-	z-index: -1;
- }
-
-.header{
-	grid-template-areas: "header-logo header-menu header-icons";
-}
-
-@media (max-width: 768px) {
-	.header{
-		grid-template-areas: "header-menu header-logo header-icons";
-	}
-}
-
-.header__logo{
-	grid-area: header-logo;
-}
-
-.header__menu{
-	grid-area: header-menu;
-}
-
-@media (min-width: 768px) {
-	.nav__item-submenu{
-		position: absolute;
-		background-color: #fff;
-		border: 1px solid #dadada;
-		padding: 15px;
-		min-width: 160px;
-		bottom: -10px;
-		transform: translateY(100%);
-		left: 0;
-	}
-}
-
-.header__icons{
-	grid-area: header-icons;
-}
-
-/* Burger Menu */
-.header__menu-burger{
-	position: relative;
-	width: 30px;
-	height: 18px;
-	cursor: pointer;
-	z-index: 5;
-	display: none;
-}
-
-@media (max-width: 768px) {
-	.header__menu-burger{
-		display: block;
-	}
-}
-
-.header__menu-burger span, .header__menu-burger:before, .header__menu-burger:after{
-	transition: all 0.3s ease 0s;
-	top: calc(50% - 1px);
-	left: 0px;
-	position: absolute;
-	width: 100%;
-	height: 2px;
-	background-color: #1d1d1d;
-}
-
-.header__menu-burger:before, .header__menu-burger:after{
-	content : " ";
-}
-
-.header__menu-burger:before {
-	top: 0px;
-}
-
-.header__menu-burger:after {
-	top: auto;
-	bottom: 0px;
-}
-
-.header__menu-burger.active span{
-	transform: scale(0);
-}
-
-.header__menu-burger.active:before{
-	transform: rotate(-45deg);
-	top: calc(50% - 1px);
-}
-
-.header__menu-burger.active:after{
-	transform: rotate(45deg);
-	bottom: calc(50% - 1px);
 }

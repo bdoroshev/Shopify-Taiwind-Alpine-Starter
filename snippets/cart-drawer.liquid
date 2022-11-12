@@ -16,13 +16,13 @@
 >
 	<div 
 		x-cloak
-		:class="showCartDrawer ? '' : 'hidden'"
+		x-show="showCartDrawer"
+		@click="showCartDrawer = false; document.body.classList.remove('overflow-hidden')"
 		class="overlay transition-all z-30 w-screen h-screen top-0 fixed bg-textColor/70"
 	>
 	</div>
 	<div
 		x-cloak
-		@click.outside="showCartDrawer = false; document.body.classList.remove('overflow-hidden')"
 		:class="showCartDrawer ? 'right-0' : '-right-[100vw]'"
 		class="p-5 transition-all z-30 bg-white fixed top-0 w-[500px] md:w-full h-screen"
 	>

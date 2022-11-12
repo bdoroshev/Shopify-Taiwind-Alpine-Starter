@@ -20,7 +20,7 @@
 			<button 
 				type="submit"
 				name="add"
-				class="btn"
+				class="button"
 				@click.prevent="Functions.addToCart($refs.product_form)"
 				{% unless product.variants.first.available %}
 					disabled

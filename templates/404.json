@@ -1,13 +1,10 @@
 {
   "sections": {
-    "featured-collection": {
-      "type": "featured-collection",
-      "settings": {
-        "featured_collection": "all"
-      }
+    "404": {
+      "type": "404"
     }
   },
   "order": [
-    "featured-collection"
+    "404"
   ]
 }

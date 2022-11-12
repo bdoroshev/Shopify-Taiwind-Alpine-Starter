@@ -35,13 +35,13 @@
 			<h3 class="font-bold text-xl">Subtotal:</h3>
 			<p class="font-bold text-xl text-accent">{{ cart.total_price | money }}</p>
 		</div>
-		<button type="submit" name="checkout" class="btn w-full">Checkout</button>
+		<button type="submit" name="checkout" class="button w-full">Checkout</button>
 	</form>
 	{% else %}
 		<div class="flex flex-col justify-center items-center gap-5 h-[70vh]">
 			{% render 'icon-cart', class: 'mx-auto w-20 h-20' %}
 			<h3 class="text-3xl font-bold">Your cart is empty</h3>
-			<a href="{{ routes.all_products_collection_url }}" class="btn">
+			<a href="{{ routes.all_products_collection_url }}" class="button">
 				Continue shopping
 			</a>
 		</div>

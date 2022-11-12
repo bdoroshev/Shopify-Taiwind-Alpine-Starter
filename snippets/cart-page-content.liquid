@@ -19,14 +19,14 @@
 			
 															<div class="w-8/12">
 			
-																	<h3 class="text-lg font-medium w-10/12">
+																	<h3 class="text-lg font-bold w-10/12">
 																			<a href="{{ item.url }}" title="{{ item.product.title }}" class="w-5/6">{{ item.product.title }}</a>
 																	</h3>
 			
 																	{% if item.line_level_discount_allocations.size > 0 %}
 																			{% assign item_discount = item.original_price | minus: item.price %}
 			
-																			<div class="font-medium text-gray-500 mt-2">
+																			<div class="font-bold text-gray-500 mt-2">
 																					<span class="money text-red-700">
 																							{{ item.price | money_with_currency }}
 																					</span>
@@ -41,7 +41,7 @@
 																					</div>
 																			{% endfor %}
 																	{% else %}
-																			<div class="mt-2 font-medium">
+																			<div class="mt-2 font-bold">
 																					<span class="money {% if item.product.compare_at_price > item.price %} text-red-700{% endif %}">
 																							{{ item.price | money_with_currency }}
 																					</span>
@@ -67,7 +67,7 @@
 																	{% endif %}
 																	
 																	{% if item.variant.title != 'Default Title' and item.variant.title != 'No Color / OS' and item.variant.title != 'NC / OS' %}
-																			<div class="w-full flex-none text-xs font-medium text-gray-500 mt-2">{{ item.variant.title }}</div>
+																			<div class="w-full flex-none text-xs font-bold text-gray-500 mt-2">{{ item.variant.title }}</div>
 																	{% endif %}
 																	
 																	{% render 'product-quantity', product: item, product_index: forloop.index, cart_page: true %}
@@ -92,13 +92,13 @@
 							<div class="w-full bg-white md:pl-7 col-span-1">
 
 									<div class="cart__note flex flex-col py-3">
-											<label for="Cart-note" class="inline-block font-medium pb-2">Note</label>
+											<label for="Cart-note" class="inline-block font-bold pb-2">Note</label>
 											<textarea 
 											class="text-area border p-3 border-gray-600" name="note" id="Cart-note" placeholder="Note">{{ cart.note }}</textarea>
 									</div>
 
 									{%- if cart.cart_level_discount_applications.size > 0 -%}
-											<div class="total-discounts flex justify-between font-medium pb-2  text-green-700" aria-label="{{ 'customer.order.discount' | t }}">
+											<div class="total-discounts flex justify-between font-bold pb-2  text-green-700" aria-label="{{ 'customer.order.discount' | t }}">
 													{%- for discount in cart.cart_level_discount_applications -%}
 															<i class="flex space-x-1"> 
 																	{% render 'icon-discount', class: 'w-4 mr-1' %}
@@ -122,7 +122,7 @@
 									</div>
 
 									<div class="flex justify-end mt-3">
-										<button name="checkout" type="submit" class="btn">
+										<button name="checkout" type="submit" class="button">
 												Checkout
 										</button>
 									</div>
@@ -133,7 +133,7 @@
 				<div class="flex flex-col justify-center items-center gap-5">
 					{% render 'icon-cart', class: 'mx-auto w-10 h-10' %}
 					<h3 class="text-3xl font-bold">Your cart is empty</h3>
-					<a href="{{ routes.all_products_collection_url }}" class="btn">
+					<a href="{{ routes.all_products_collection_url }}" class="button">
 						Continue shopping
 					</a>
 				</div>

@@ -23,6 +23,7 @@ const Functions = {
 			.then(response => {
 				window.dispatchEvent(new CustomEvent('update-cart'))
 				window.dispatchEvent(new CustomEvent('toggle-cart'))
+				document.body.classList.add('overflow-hidden')
 			})
 			.catch((error) => {
 				console.error('Error:', error);

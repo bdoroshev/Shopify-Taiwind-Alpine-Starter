@@ -16,6 +16,7 @@
     {% if page_description %}
       <meta name="description" content="{{ page_description | escape }}">
     {% endif %}
+		
 		<link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
 
     {% render 'meta-tags' %}
@@ -28,8 +29,9 @@
   <body class="text-textColor">
 		<div class="w-full min-h-screen flex flex-col">
 			{% section 'announcement-bar' %}
-			<div class="sticky-header bg-white">
+			<div class="sticky-header bg-white sticky top-0">
     		{% section 'header' %}
+				{% render 'sticky-header-scroll-hide' %}
 			</div>
 			<main role="main" class="flex-grow" tabindex="-1">
 				{{ content_for_layout }}
