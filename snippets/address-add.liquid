@@ -44,7 +44,7 @@
                 required
                 placeholder="First Name"
                 id="first_name"
-                class="p-2 block w-full border rounded text-sm"
+                class="input"
               >
             </div>
 
@@ -58,7 +58,7 @@
                 required
                 autocapitalize="words"
                 placeholder="Last Name"
-                class="p-2 block w-full border rounded text-sm"
+                class="input"
               >
             </div>
 
@@ -71,7 +71,7 @@
                 id="company"
                 placeholder="Company"
                 autocapitalize="words"
-                class="p-2 block w-full border rounded text-sm"
+                class="input"
               >
             </div>
 
@@ -84,7 +84,7 @@
                 id="phone"
                 placeholder="Phone"
                 autocapitalize="words"
-                class="p-2 block w-full border rounded text-sm"
+                class="input"
               >
             </div>
 
@@ -98,7 +98,7 @@
                 id="country"
                 placeholder="Country"
                 required
-                class="block w-full p-2 border rounded bg-white shadow-sm focus:outline-none text-sm"
+                class="input"
               >
                 {{ country_option_tags }}
               </select>
@@ -113,7 +113,7 @@
                 id="province"
                 placeholder="Province"
                 autocapitalize="words"
-                class="p-2 block w-full border rounded text-sm"
+                class="input"
               >
                 <template x-for="item in province">
                   <option :value="item[0]" x-text="item[0]"></option>
@@ -131,7 +131,7 @@
                 placeholder="City"
                 required
                 autocapitalize="words"
-                class="p-2 block w-full border rounded text-sm"
+                class="input"
               >
             </div>
 
@@ -145,7 +145,7 @@
                 placeholder="Address1"
                 required
                 autocapitalize="words"
-                class="p-2 block w-full border rounded text-sm"
+                class="input"
               >
             </div>
 
@@ -158,7 +158,7 @@
                 id="address2"
                 placeholder="Address2"
                 autocapitalize="words"
-                class="p-2 block w-full border rounded text-sm"
+                class="input"
               >
             </div>
 
@@ -172,7 +172,7 @@
                 placeholder="Zip"
                 required
                 autocapitalize="words"
-                class="p-2 block w-full border rounded text-sm"
+                class="input"
               >
             </div>
           </div>

@@ -1,5 +1,5 @@
 
-<div x-cloak x-data="{ resetPassword: false }" class="login max-w-sm mx-auto px-2 md:px-2">
+<div x-cloak x-data="{ resetPassword: false }" class="container max-w-[400px]">
 
   <div class="my-8 md:my-6">
 
@@ -68,7 +68,7 @@
                
               </div>
 							
-              <button type="button" @click="resetPassword = true" class="block text-sm mt-3 mb-4 underline text-right">
+              <button type="button" @click="resetPassword = true" class="link my-3">
                 Forgot Password?
               </button>
 
@@ -80,7 +80,7 @@
             
             <p class="mb-4 text-center text-sm tracking-wider mt-4">
               You don't have an account?
-              <a href="{{ routes.account_register_url }}" class="block underline">
+              <a href="{{ routes.account_register_url }}" class="link">
                 Create Account
               </a>
             </p>
@@ -147,7 +147,7 @@
              Submit
             </button>
       
-            <button type="button" @click="resetPassword = false" class="mt-4 mb-4 text-sm underline text-center w-full">
+            <button type="button" @click="resetPassword = false" class="link mt-4 mb-4 text-center w-full">
               Back to Login page
             </button>
 

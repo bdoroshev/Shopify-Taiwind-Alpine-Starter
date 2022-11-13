@@ -16,16 +16,16 @@
 	>
 		<form method="post" action="/cart/add" x-ref="product_form">
 			<input type="hidden" name="id" value="{{ product.variants.first.id }}" />
-			<input min="1" type="hidden" id="quantity" name="quantity" value="1"/>
+			<input min="1" type="hidden" id="quantity" name="quantity" value="1" />
 			<button 
 				type="submit"
 				name="add"
 				class="button"
 				@click.prevent="Functions.addToCart($refs.product_form)"
-				{% unless product.variants.first.available %}
+				{% unless product.selected_or_first_available_variant.available %}
 					disabled
 				{% endunless %} >
-				{% unless product.variants.first.available%}
+				{% unless product.selected_or_first_available_variant.available%}
 					Coming Soon
 					{% else %}
 						Add to Cart

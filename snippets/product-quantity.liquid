@@ -17,7 +17,7 @@
 		<span class="sr-only">decrease quantity</span>
 		&minus;
 	</button>
-	<input type="number" class="product__number text-center max-w-[50px] w-full" name="quantity" value="1 " min="1" onkeydown="return false"  x-model="quantity" />
+	<input type="number" class="product__number text-center max-w-[50px] w-full" name="quantity" min="1" onkeydown="return false"  x-model="quantity" />
 	<button class="px-4 py-2 border-l cursor-pointer" type="button" @click.debounce="[plus(1){% if cart_page %}, Functions.changeQuantity({{ product_index }}, quantity), loading = true{% endif %}]">
 		<span class="sr-only">increase quantity</span>
 		&plus;

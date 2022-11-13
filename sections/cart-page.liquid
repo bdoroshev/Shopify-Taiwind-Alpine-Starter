@@ -1,18 +1,26 @@
 
 
 <div class="container"
-	@cart-updated.window="updateCart;"
-	x-data="{
-		loading: false,
-		updateCart(){
-				fetch('/?view=ajax-cart-page')
-				.then(response => response.text())
-				.then(cartData => {
-						$refs.cart_content.innerHTML = cartData;
-						this.loading = false;
-				})
-		}
-	}">
+    x-data="{
+      loading: false,
+      updateCart(){
+          // send fetch reqeust to update cart
+          fetch('/?view=ajax-cart-page')
+          .then(response => response.text())
+          .then(cartData => {
+              $refs.cart_content.innerHTML = cartData;
+              // This code is use to parse json object. for cart count
+              var el = document.createElement('div');
+              el.innerHTML = cartData;
+              var cartCount = JSON.parse(el.querySelector('[data-options]').innerHTML).item_count;
+              $dispatch('cart-count-updated', cartCount);
+              this.loading = false;
+          })
+      }
+    }"
+		@update-cart.window="updateCart;"
+	
+	>
 
 	<div class="py-4 flex items-center justify-between">
 		<h1 class="title text-3xl font-bold">Cart</h1>

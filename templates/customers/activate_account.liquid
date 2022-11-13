@@ -1,13 +1,48 @@
-{
-  "sections": {
-    "featured-collection": {
-      "type": "featured-collection",
-      "settings": {
-        "featured_collection": "all"
-      }
-    }
-  },
-  "order": [
-    "featured-collection"
-  ]
-}
+<div class="container my-8 max-w-[400px] text-center">
+  <h1 class="text-3xl font-bold">Activate account</h1>
+  <p class="mt-4">Create your password to activate your account</p>
+  <div>
+    {% form 'activate_customer_password',
+      class: 'space-y-4',
+      id: 'activate_account_form'
+    %}
+      {% if form.errors %}
+        <div
+          class="relative border border-red-700 bg-red-100 text-red-700 px-4 py-3"
+          role="alert"
+        >
+          <strong class="font-bold">Error!</strong>
+          <span class="block sm:inline">
+            {{ form.errors | default_errors }}
+          </span>
+        </div>
+      {% endif %}
+      <div>
+        <label for="password" class="sr-only">Password</label>
+        <input
+          type="password"
+          name="customer[password]"
+          id="password"
+          placeholder="Password"
+          class="input"
+          autocomplete="new-password"
+        >
+      </div>
+      <div>
+        <label for="confirm_password" class="sr-only">Confirm Password</label>
+        <input
+          type="password"
+          name="customer[password_confirmation]"
+          id="confirm_password"
+          placeholder="Confirm password"
+          class="input"
+          autocomplete="new-password"
+        >
+      </div>
+      <button type="submit" class="button w-full">Activate account</button>
+      <button type="submit" name="decline" class="link mt-3">
+        Decline Invitation
+      </button>
+    {% endform %}
+  </div>
+</div>

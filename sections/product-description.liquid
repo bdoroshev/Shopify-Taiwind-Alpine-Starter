@@ -60,18 +60,19 @@
               }"
 							@quantity-changed.window="quantity = $event.detail.quantity"
 						>
-							{% form 'product', product, id: product_form_id , novalidate: 'novalidate', x-ref: 'product_form' %}
+							{% assign product_form_installment_id = 'product-form-installment-' | append: section.id %}
+							{% form 'product', product, id: product_form_installment_id , novalidate: 'novalidate', x-ref: 'product_form' %}
 								<input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-								<input type="hidden" name="quantity" x-model="quantity" value="1">
+								<input type="hidden" name="quantity" x-model="quantity" />
 								<button 
 									type="submit"
 									name="add"
-									class="button w-full my-3 product-section__cart-button"
+									class="product-section__cart-button button my-3"
 									@click.prevent="Functions.addToCart($refs.product_form)"
-									{% unless product.variants.first.available %}
+									{% unless product.selected_or_first_available_variant.available %}
 										disabled
 									{% endunless %} >
-									{% unless product.variants.first.available%}
+									{% unless product.selected_or_first_available_variant.available %}
 										{{ block.settings.sold_out }}
 										{% else %}
 											{{ block.settings.add_to_cart }}
