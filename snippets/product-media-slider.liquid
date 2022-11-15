@@ -20,7 +20,8 @@
 		{% endfor %}
 	</div>
 </div>
-{{ 'swiper.js' | asset_url | script_tag }}
+
+<script defer src="{{ 'swiper.js' | asset_url }}"></script>
 
 <script>
 const productSwiperThumbs = new Swiper(".product-swiper__thumbnails", {

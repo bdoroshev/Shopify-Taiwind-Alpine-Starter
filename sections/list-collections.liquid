@@ -6,16 +6,11 @@
         <div class="group w-full py-6 px-3">
           <a href="{{ collection.url }}">
             <div class="h-80 overflow-hidden">
-              {% if collection.featured_image != blank %}
-                {% assign collection_image = collection.featured_image %}
-              {% else %}
-                {% assign collection_image = collection.products.first.image %}
-              {% endif %}
-              <img
-                class="w-full h-full object-cover transition duration-300 ease-in-out transform hover:scale-105"
-                src="{{ collection_image | img_url: 'medium' }}"
-                alt="{{ collection.title | escape }}"
-              >
+							{% if collection.featured_image %}
+								{{ collection.featured_image | image_url: width: 'master' | image_tag: loading: 'lazy', class: 'w-full h-full object-cover transition duration-300 ease-in-out transform hover:scale-105' }}
+								{% else %}
+									{{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover transition duration-300 ease-in-out transform hover:scale-105' }}
+							{% endif %}
             </div>
           </a>
           <h1 class="group-hover:text-accent text-xl font-bold mt-3">

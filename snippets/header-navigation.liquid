@@ -18,10 +18,10 @@
 							x-cloak
 							x-transition
 							@click.outside="submenuOpen = false"
-							class="nav__item-submenu absolute bg-white border rounded min-w-[250px] p-3 mt-1"
+							class="nav__item-submenu absolute bg-white border divide-y rounded min-w-[250px] p-3 mt-1"
 						>
 							{% for sublink in linklists[link.handle].links %}
-								<li class="hover:text-accent {% unless forloop.last %} pb-2 mb-2 border-b {% endunless %}">
+								<li class="hover:text-accent py-2">
 									<a href="{{ sublink.url }}">
 										{{ sublink.title }}
 									</a>

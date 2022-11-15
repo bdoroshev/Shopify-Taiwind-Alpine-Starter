@@ -18,7 +18,7 @@
     -->
 
     <div
-      class="bg-white overflow-hidden relative shadow-xl w-full max-w-[900px] mx-[20px] p-4 rounded"
+      class="bg-white overflow-hidden relative shadow-xl w-full max-w-[900px] mx-[20px] p-6 rounded"
       role="dialog"
       aria-modal="true"
       aria-labelledby="Edit Address"
@@ -40,86 +40,76 @@
               %}
             </button>
           </div>
-          <div class="grid grid-cols-6 gap-3 md:grid-cols-1">
-            <div class="col-span-3">
-              <label :for="'first_name'+address.id" class="sr-only">
-                First Name
-              </label>
-              <input
-                type="text"
-                name="address[first_name]"
-                :value="address.first_name"
-                autocapitalize="words"
-                required
-                placeholder="First Name"
-                :id="'first_name'+address.id"
-                class="input"
-              >
-            </div>
+          <div class="grid grid-cols-2 gap-3 md:grid-cols-1">
+						<label :for="'first_name'+address.id" class="sr-only">
+							First Name
+						</label>
+						<input
+							type="text"
+							name="address[first_name]"
+							:value="address.first_name"
+							autocapitalize="words"
+							required
+							placeholder="First Name"
+							:id="'first_name'+address.id"
+							class="input"
+						>
 
-            <div class="col-span-3">
-              <label :for="'last_name'+address.id" class="sr-only">
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="address[last_name]"
-                :value="address.last_name"
-                :id="'last_name'+address.id"
-                required
-                autocapitalize="words"
-                placeholder="Last Name"
-                class="input"
-              >
-            </div>
+						<label :for="'last_name'+address.id" class="sr-only">
+							Last Name
+						</label>
+						<input
+							type="text"
+							name="address[last_name]"
+							:value="address.last_name"
+							:id="'last_name'+address.id"
+							required
+							autocapitalize="words"
+							placeholder="Last Name"
+							class="input"
+						>
 
-            <div class="col-span-3">
-              <label :for="'company'+address.id" class="sr-only">
-                Company
-              </label>
-              <input
-                type="text"
-                name="address[company]"
-                :value="address.company"
-                :id="'company'+address.id"
-                placeholder="Company"
-                autocapitalize="words"
-                class="input"
-              >
-            </div>
+						<label :for="'company'+address.id" class="sr-only">
+							Company
+						</label>
+						<input
+							type="text"
+							name="address[company]"
+							:value="address.company"
+							:id="'company'+address.id"
+							placeholder="Company"
+							autocapitalize="words"
+							class="input"
+						>
 
-            <div class="col-span-3">
-              <label :for="'phone'+address.id" class="sr-only"> Phone </label>
-              <input
-                type="tel"
-                name="address[phone]"
-                :value="address.phone"
-                :id="'phone'+address.id"
-                placeholder="Phone"
-                autocapitalize="words"
-                class="input"
-              >
-            </div>
+						<label :for="'phone'+address.id" class="sr-only"> Phone </label>
+						<input
+							type="tel"
+							name="address[phone]"
+							:value="address.phone"
+							:id="'phone'+address.id"
+							placeholder="Phone"
+							autocapitalize="words"
+							class="input"
+						>
 
-            <div class="col-span-3">
-              <label :for="'country'+address.id" class="sr-only">
-                Country
-              </label>
-              <select
-                x-ref="address_country"
-                name="address[country]"
-                @change="province = JSON.parse($event.target.selectedOptions[0].dataset.provinces); address.country = $event.target.selectedOptions[0].text;"
-                :value="address.country"
-                :id="'country'+address.id"
-                placeholder="Country"
-                required
-                class="input"
-              >
-                {{ country_option_tags }}
-              </select>
-            </div>
+						<label :for="'country'+address.id" class="sr-only">
+							Country
+						</label>
+						<select
+							x-ref="address_country"
+							name="address[country]"
+							@change="province = JSON.parse($event.target.selectedOptions[0].dataset.provinces); address.country = $event.target.selectedOptions[0].text;"
+							:value="address.country"
+							:id="'country'+address.id"
+							placeholder="Country"
+							required
+							class="input"
+						>
+							{{ country_option_tags }}
+						</select>
 
-            <div class="col-span-3" x-show="province.length > 0">
+            <div x-show="province.length > 0">
               <label :for="'province'+address.id" class="sr-only">
                 Province
               </label>
@@ -138,65 +128,57 @@
               </select>
             </div>
 
-            <div class="col-span-3">
-              <label for="city" class="sr-only"> City </label>
-              <input
-                type="text"
-                name="address[city]"
-                :value="address.city"
-                :id="'city'+address.id"
-                placeholder="City"
-                required
-                autocapitalize="words"
-                class="input"
-              >
-            </div>
+						<label for="city" class="sr-only"> City </label>
+						<input
+							type="text"
+							name="address[city]"
+							:value="address.city"
+							:id="'city'+address.id"
+							placeholder="City"
+							required
+							autocapitalize="words"
+							class="input"
+						>
 
-            <div class="col-span-3">
-              <label :for="'address1'+address.id" class="sr-only">
-                Address
-              </label>
-              <input
-                type="text"
-                name="address[address1]"
-                :value="address.address1"
-                :id="'address1'+address.id"
-                placeholder="Address1"
-                required
-                autocapitalize="words"
-                class="input"
-              >
-            </div>
+						<label :for="'address1'+address.id" class="sr-only">
+							Address
+						</label>
+						<input
+							type="text"
+							name="address[address1]"
+							:value="address.address1"
+							:id="'address1'+address.id"
+							placeholder="Address1"
+							required
+							autocapitalize="words"
+							class="input"
+						>
 
-            <div class="col-span-3">
-              <label :for="'address2'+address.id" class="sr-only">
-                Address 2
-              </label>
-              <input
-                type="text"
-                name="address[address2]"
-                value="{{ form.address2 }}"
-                :value="address.address2"
-                :id="'address2'+address.id"
-                autocapitalize="words"
-								placeholder="Address2"
-                class="input"
-              >
-            </div>
+						<label :for="'address2'+address.id" class="sr-only">
+							Address 2
+						</label>
+						<input
+							type="text"
+							name="address[address2]"
+							value="{{ form.address2 }}"
+							:value="address.address2"
+							:id="'address2'+address.id"
+							autocapitalize="words"
+							placeholder="Address2"
+							class="input"
+						>
 
-            <div class="col-span-3">
-              <label :for="'zip'+address.id" class="sr-only"> Zip </label>
-              <input
-                type="text"
-                name="address[zip]"
-                :value="address.zip"
-                :id="'zip'+address.id"
-                placeholder="Zip"
-                required
-                autocapitalize="words"
-                class="input"
-              >
-            </div>
+						<label :for="'zip'+address.id" class="sr-only"> Zip </label>
+						<input
+							type="text"
+							name="address[zip]"
+							:value="address.zip"
+							:id="'zip'+address.id"
+							placeholder="Zip"
+							required
+							autocapitalize="words"
+							class="input"
+						>
           </div>
         </div>
 

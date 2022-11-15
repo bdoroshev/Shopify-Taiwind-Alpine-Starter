@@ -6,7 +6,7 @@
 					<div class="grid-item group">
 						<a href="{{ article.url }}">
 							{% if article.image %}
-								<img class="w-full h-80 object-cover" src="{{ article.image | img_url: 'medium' }}" alt="{{ article.image.alt }}">
+								{{ article.image | image_url: width: 'master' | image_tag: loading: 'lazy', class: 'w-full h-80 object-cover' }}
 								{% else %}
 									{{ 'image' | placeholder_svg_tag: 'w-full h-80 object-cover bg-gray-100' }}
 							{% endif %}

@@ -49,8 +49,8 @@
 					{% when 'price' %}
 						<div class="my-3 font-bold text-4xl text-accent" id="price-{{ section.id }}">
 							{{ product.selected_or_first_available_variant.price | money }}
-							{% if  product.selected_or_first_available_variant.compare_at_price >  product.selected_or_first_available_variant.price -%}
-								<s class="text-red-700"> {{  product.selected_or_first_available_variant.compare_at_price | money }}</s>
+							{% if  product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+								<s class="text-red-700"> {{ product.selected_or_first_available_variant.compare_at_price | money }}</s>
 							{% endif %}
 						</div>
 
