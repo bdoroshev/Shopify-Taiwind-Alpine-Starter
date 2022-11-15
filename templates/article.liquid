@@ -38,7 +38,7 @@
       class="bg-blue-100 rounded-lg mx-2 md:mx-auto overflow-hidden my-4"
     >
       {% if article.image != blank %}
-				{{ article.image | image_url: width: 'master' | image_tag: loading: 'lazy', class: 'w-full h-80 md:h-96 object-cover object-center' }}
+				{{ article.image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'w-full h-80 md:h-96 object-cover object-center' }}
       {% else %}
         {% assign placeholder_image = 'lifestyle-2' %}
         {{
@@ -82,34 +82,27 @@
     <div id="comments_form" class="mb-8">
       {% form 'new_comment', article %}
         <div class="flex-1 mx-auto items-center justify-center max-w-[600px]">
-          {% if form.errors %}
-            <div class="border p-5">
-              <div class="flex flex-row items-center w-full my-3">
-                <div class="text-red-500">
-                  {% render 'icon-failed' %}
-                </div>
-                <div class="text-sm font-medium ml-3">
-                  Oh no! Your comment was not posted
-                </div>
-              </div>
-              <ul class="px-4 mb-3 ml-7 list-decimal">
-                {% for error in form.errors %}
-                  <li>
-                    <span>{{ form.errors.messages[error] }}</span>
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% elsif form.posted_successfully? %}
-            <div class="flex flex-row items-center w-full my-3 py-5">
-              <div class="text-green-500">
-                {% render 'icon-success' %}
-              </div>
-              <div class="text-sm font-meduum ml-3">
-                Comment is posted successfully
-              </div>
-            </div>
-          {% endif %}
+					{% if form.errors %}
+						<div class="flex flex-row items-center justify-center w-full my-3">
+							{% for error in form.errors %}
+								<div class="text-red-500">
+									{% render 'icon-failed' %}
+								</div>
+								<p class="text-red-500 text-sm font-bold ml-2">
+									{{ form.errors.translated_fields[error] }} - {{ form.errors.messages[error] }}
+								</p>
+							{% endfor %}
+						</div>
+					{% elsif form.posted_successfully? %}
+						<div class="flex flex-row items-center justify-center w-full gap-2 my-5">
+							<div class="text-green-500">
+								{% render 'icon-success' %}
+							</div>
+							<p class="text-green-500 font-bold text-center">
+								Comment is posted successfully
+							</p>
+						</div>
+					{% endif %}
           <div class="px-1 grid grid-cols-2 gap-3">
             <label
               for="comment_author"
@@ -172,7 +165,7 @@
   	{% endif %}
   	{% if article.image %}
   		"image": [
-  			{{ article.image | image_url: 'medium' | prepend: 'https:' | json }}
+  			{{ article.image | image_url: 1200 | prepend: 'https:' | json }}
   		],
   	{% endif %}
   	"datePublished": {{ article.published_at | date: format: "default" | json }},

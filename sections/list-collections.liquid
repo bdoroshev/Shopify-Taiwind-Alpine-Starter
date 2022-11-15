@@ -7,7 +7,7 @@
           <a href="{{ collection.url }}">
             <div class="h-80 overflow-hidden">
 							{% if collection.featured_image %}
-								{{ collection.featured_image | image_url: width: 'master' | image_tag: loading: 'lazy', class: 'w-full h-full object-cover transition duration-300 ease-in-out transform hover:scale-105' }}
+								{{ collection.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', class: 'w-full h-full object-cover transition duration-300 ease-in-out transform hover:scale-105' }}
 								{% else %}
 									{{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover transition duration-300 ease-in-out transform hover:scale-105' }}
 							{% endif %}

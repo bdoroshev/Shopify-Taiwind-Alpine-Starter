@@ -4,7 +4,7 @@
   {% when 'image' %}
     {{
       media
-      | image_url: width: master
+      | image_url: width: 600
       | image_tag: loading: 'lazy', class: class
     }}
   {% when 'video' %}
@@ -22,7 +22,7 @@
           <span class="border bg-gray-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             {% render 'icon-model-viewer' %}
           </span>
-					{{ media | image_url: width: master | image_tag: loading: 'lazy', class: 'w-full h-full object-cover' }}
+					{{ media | image_url: width: 600 | image_tag: loading: 'lazy', class: 'w-full h-full object-cover' }}
         </button>
       </div>
 

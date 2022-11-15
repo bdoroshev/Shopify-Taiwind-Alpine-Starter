@@ -1,11 +1,11 @@
 {% if cart.item_count > 0 %}
 	<form action="{{ routes.cart_url }}" method="POST">
-		<div class="max-h-[70vh] overflow-y-auto">
+		<div class="max-h-[70vh] overflow-y-auto divide-y">
 			{% for item in cart.items %}
-				<div class="grid grid-cols-[1fr_2fr] items-center gap-5 mb-5 {% unless forloop.last %} pb-5 border-b {% endunless %}">
+				<div class="grid grid-cols-[1fr_2fr] items-center gap-5 py-5">
 					<a href="{{ item.url }}">
 						{% if item.image %}
-							{{ item.image | image_url: width: master | image_tag: loading: 'lazy' }}
+							{{ item.image | image_url: width: 150 | image_tag: loading: 'lazy' }}
 								{% else %}
 									{{ 'product-1' | placeholder_svg_tag }}
 							{% endif %}

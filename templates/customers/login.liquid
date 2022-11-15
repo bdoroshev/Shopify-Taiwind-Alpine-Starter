@@ -12,20 +12,18 @@
       <div class="w-full">
 
           {%- form 'customer_login', novalidate: 'novalidate' -%}
-            {%- if form.errors -%}
-              <h2 class="flex text-base mb-2 text-red-500" tabindex="-1">
-                <span class="sr-only">Error </span>
-                <span class="w-7 pr-2">
-                  <svg aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 13 13">
-                    <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
-                    <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
-                    <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
-                    <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
-                  </svg>
-                </span>
-								{{ form.errors | default_errors }}
-              </h2>
-            {%- endif -%}
+            {% if form.errors %}
+							<div class="flex flex-row items-center justify-center w-full my-3">
+								{% for error in form.errors %}
+									<div class="text-red-500">
+										{% render 'icon-failed' %}
+									</div>
+									<p class="text-red-500 text-sm font-bold ml-2">
+										{{ form.errors.messages[error] }}
+									</p>
+								{% endfor %}
+							</div>
+						{% endif %}
       
             <div class="flex flex-col mb-2">
               <label for="CustomerEmail" class="tracking-widest sr-only">
@@ -40,6 +38,7 @@
                 autocorrect="off"
                 autocapitalize="off"
                 class="input"
+								required
                 {% if form.errors contains 'form' %}
                   aria-invalid="true"
                 {% endif %}
@@ -61,6 +60,7 @@
                   placeholder="Password"
                   autocomplete="current-password"
                   class="input"
+									required
                   {% if form.errors contains 'form' %}
                     aria-invalid="true"
                   {% endif %}
@@ -84,9 +84,6 @@
                 Create Account
               </a>
             </p>
-
-           
-            
           {%- endform -%}
       </div>
     </div>
@@ -94,23 +91,29 @@
     <div x-show="resetPassword" x-transition.opacity class="h-full flex items-center justify-center">
         <div class="w-full">
 
-          <p class="text-sm font-secondary text-center mb-2">
-            We will send you an email to reset your password
-          </p>
-
-          {%- if recover_success == true -%}
-            <h4 class="text-xl" tabindex="-1" autofocus>
-              <svg aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 13 13">
-                <path d="M6.5 12.35C9.73087 12.35 12.35 9.73086 12.35 6.5C12.35 3.26913 9.73087 0.65 6.5 0.65C3.26913 0.65 0.65 3.26913 0.65 6.5C0.65 9.73086 3.26913 12.35 6.5 12.35Z" fill="#428445" stroke="white" stroke-width="0.7"/>
-                <path d="M5.53271 8.66357L9.25213 4.68197" stroke="white"/>
-                <path d="M4.10645 6.7688L6.13766 8.62553" stroke="white">
-              </svg>
-              We've sent you an email with a link to update your password.
-            </h3>
-          {%- endif -%}
+          {% if form.errors %}
+						<div class="flex flex-row items-center justify-center w-full my-3">
+							{% for error in form.errors %}
+								<div class="text-red-500">
+									{% render 'icon-failed' %}
+								</div>
+								<p class="text-red-500 text-sm font-bold ml-2">
+									{{ form.errors.translated_fields[error] | capitalize }} - {{ form.errors.messages[error] }}
+								</p>
+							{% endfor %}
+						</div>
+					{% elsif form.posted_successfully? %}
+						<div class="flex flex-row items-center justify-center w-full gap-2 my-5">
+							<div class="text-green-500">
+								{% render 'icon-success' %}
+							</div>
+							<p class="text-green-500 font-bold text-center">
+								Password is recovered successfully
+							</p>
+						</div>
+					{% endif %}
 
           {%- form 'recover_customer_password' -%}
-            {% assign recover_success = form.posted_successfully? %}
             <div class="flex flex-col mb-4">
               <label for="RecoverEmail" class="tracking-widest sr-only">
                 Recover Email
@@ -123,6 +126,7 @@
                     autocomplete="email"
                     placeholder="Email"
                     class="input"
+										required
                     {% if form.errors %}
                       aria-invalid="true"
                       aria-describedby="RecoverEmail-email-error"
@@ -131,17 +135,6 @@
               >
             
             </div>
-            {%- if form.errors -%}
-              <small id="RecoverEmail-email-error" class="form__message">
-                <svg aria-hidden="true" focusable="false" role="presentation" viewBox="0 0 13 13">
-                  <circle cx="6.5" cy="6.50049" r="5.5" stroke="white" stroke-width="2"/>
-                  <circle cx="6.5" cy="6.5" r="5.5" fill="#EB001B" stroke="#EB001B" stroke-width="0.7"/>
-                  <path d="M5.87413 3.52832L5.97439 7.57216H7.02713L7.12739 3.52832H5.87413ZM6.50076 9.66091C6.88091 9.66091 7.18169 9.37267 7.18169 9.00504C7.18169 8.63742 6.88091 8.34917 6.50076 8.34917C6.12061 8.34917 5.81982 8.63742 5.81982 9.00504C5.81982 9.37267 6.12061 9.66091 6.50076 9.66091Z" fill="white"/>
-                  <path d="M5.87413 3.17832H5.51535L5.52424 3.537L5.6245 7.58083L5.63296 7.92216H5.97439H7.02713H7.36856L7.37702 7.58083L7.47728 3.537L7.48617 3.17832H7.12739H5.87413ZM6.50076 10.0109C7.06121 10.0109 7.5317 9.57872 7.5317 9.00504C7.5317 8.43137 7.06121 7.99918 6.50076 7.99918C5.94031 7.99918 5.46982 8.43137 5.46982 9.00504C5.46982 9.57872 5.94031 10.0109 6.50076 10.0109Z" fill="white" stroke="#EB001B" stroke-width="0.7">
-                </svg>
-                {{ form.errors.messages['form'] }}
-              </small>
-            {%- endif -%}
 
             <button class="text-base button justify-center w-full">
              Submit

@@ -94,66 +94,66 @@
 
 {% schema %}
 {
-	"name": "Product",
-	"blocks": [
-		{
-			"type": "@app"
-		},
-		{
-			"type": "vendor",
-			"name": "Vendor",
-			"limit": 1
-		},
-		{
-			"type": "title",
-			"name": "Title",
-			"limit": 1
-		},
-		{
-			"type": "description",
-			"name": "Description",
-			"limit": 1
-		},
-		{
-			"type": "variant_selector",
-			"name": "Variant Selector",
-			"limit": 1
-		},
-		{
-			"type": "quantity",
-			"name": "Quantity",
-			"limit": 1
-		},
-		{
-			"type": "price",
-			"name": "Price",
-			"limit": 1
-		},
-		{
-			"type": "checkout_buttons",
-			"name": "Checkout Buttons",
-			"limit": 1,
-			"settings": [
-				{
-					"type": "text",
-					"id": "add_to_cart",
-					"label": "Add to cart button text",
-					"default": "Add to Cart"
-				},
-				{
-					"type": "text",
-					"id": "sold_out",
-					"label": "Sold Out button text",
-					"default": "Sold Out"
-				},
-				{
-					"type": "checkbox",
-					"id": "dynamic_buttons",
-					"label": "Allow Dynamic Buttons",
-					"default": false
-				}
-			]
-		}
-	]
+  "name": "Product",
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "vendor",
+      "name": "Vendor",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "variant_selector",
+      "name": "Variant Selector",
+      "limit": 1
+    },
+    {
+      "type": "quantity",
+      "name": "Quantity",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1
+    },
+    {
+      "type": "checkout_buttons",
+      "name": "Checkout Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "add_to_cart",
+          "label": "Add to cart button text",
+          "default": "Add to Cart"
+        },
+        {
+          "type": "text",
+          "id": "sold_out",
+          "label": "Sold Out button text",
+          "default": "Sold Out"
+        },
+        {
+          "type": "checkbox",
+          "id": "dynamic_buttons",
+          "label": "Allow Dynamic Buttons",
+          "default": false
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

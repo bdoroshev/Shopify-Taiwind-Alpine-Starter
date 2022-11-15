@@ -4,11 +4,10 @@
 			{% if cart.item_count > 0 %}
 					<div class="relative md:grid grid-cols-3">
 							{% assign total_savings = 0 %}
-							<div class="md:pr-7 md:border-r border-gray-600 col-span-2">
+							<div class="md:pr-7 md:border-r col-span-2 divide-y">
 									{% for item in cart.items %}
-											<div class="cart-item">
-													<div class="flex py-3 border-color w-full items-center relative 
-															{% unless forloop.last %} border-b border-gray-400 {% endunless %}">
+											<div class="cart-item py-10">
+													<div class="flex border-color w-full items-center relative">
 															<div class="w-4/12">
 																	{% if item.image %}
 																			{{ item.image | image_url: width: 400 | image_tag: loading: 'lazy', class: 'w-full pr-3' }}

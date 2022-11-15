@@ -7,7 +7,9 @@
     "shopify": "shopify theme serve",
     "dev": "concurrently --kill-others \"npm run tailwind\" \"npm run shopify\""
   },
-  "keywords": [],
+  "keywords": [
+
+  ],
   "author": "Bogdan Doroshev",
   "license": "ISC",
   "devDependencies": {

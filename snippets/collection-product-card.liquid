@@ -1,7 +1,7 @@
 <div class="group flex flex-col">
 	<a href="{{ product.url }}">
 		{% if product.featured_image %}
-		{{ product.featured_image | image_url: width: master | image_tag: loading: 'lazy', class: image_class }}
+		{{ product.featured_image | image_url: width: 350 | image_tag: loading: 'lazy', class: image_class }}
 			{% else %}
 				{{ 'product-1' | placeholder_svg_tag: image_class }}
 		{% endif %}

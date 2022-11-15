@@ -37,51 +37,51 @@
 	</div>
 </footer>
 {% schema %}
-	{
-		"name": "Footer",
-		"settings": [
-			{
-				"type": "image_picker",
-				"id": "logo",
-				"label": "Logo"
-			},
-			{
-				"type": "richtext",
-				"id": "text",
-				"label": "Footer Text",
-				"default": "<p>All Rights Reserved.</p>"
-			},
-			{
-				"type": "color",
-				"id": "bg_color",
-				"label": "Footer Background Color"
-			},
-			{
-				"type": "color",
-				"id": "color",
-				"default": "#ffffff",
-				"label": "Footer Text Color"
-			}
-		],
-		"blocks": [
-			{
-				"type": "menu",
-				"name": "Footer Menu",
-				"settings": [
-					{
-						"type": "text",
-						"id": "title",
-						"default": "Footer Menu Title",
-						"label": "Title"
-					},
-					{
-						"type": "link_list",
-						"id": "menu",
-						"label": "Footer Menu",
-						"default": "footer"
-					}
-				]
-			}
-		]
-	}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Footer Text",
+      "default": "<p>All Rights Reserved.</p>"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Footer Background Color"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "default": "#ffffff",
+      "label": "Footer Text Color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Footer Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Footer Menu Title",
+          "label": "Title"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Footer Menu",
+          "default": "footer"
+        }
+      ]
+    }
+  ]
+}
 {% endschema %}

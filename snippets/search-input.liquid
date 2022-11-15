@@ -5,7 +5,9 @@
 			id="nav-search-input"
 			name="q"
 			value="{{ search.terms | escape }}"
-			placeholder="Search">
+			placeholder="Search"
+			required
+		>
 
 		<label class="field__label sr-only" for="nav-search-input">Search</label>
 		<input name="options[prefix]" type="hidden" value="last">

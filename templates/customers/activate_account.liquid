@@ -6,17 +6,18 @@
       class: 'space-y-4',
       id: 'activate_account_form'
     %}
-      {% if form.errors %}
-        <div
-          class="relative border border-red-700 bg-red-100 text-red-700 px-4 py-3"
-          role="alert"
-        >
-          <strong class="font-bold">Error!</strong>
-          <span class="block sm:inline">
-            {{ form.errors | default_errors }}
-          </span>
-        </div>
-      {% endif %}
+		{% if form.errors %}
+			<div class="flex flex-row items-center justify-center w-full my-3">
+				{% for error in form.errors %}
+					<div class="text-red-500">
+						{% render 'icon-failed' %}
+					</div>
+					<p class="text-red-500 text-sm font-bold ml-2">
+						{{ form.errors.translated_fields[error] }} - {{ form.errors.messages[error] }}
+					</p>
+				{% endfor %}
+			</div>
+		{% endif %}
       <div>
         <label for="password" class="sr-only">Password</label>
         <input
@@ -26,6 +27,7 @@
           placeholder="Password"
           class="input"
           autocomplete="new-password"
+					required
         >
       </div>
       <div>
@@ -37,6 +39,7 @@
           placeholder="Confirm password"
           class="input"
           autocomplete="new-password"
+					required
         >
       </div>
       <button type="submit" class="button w-full">Activate account</button>

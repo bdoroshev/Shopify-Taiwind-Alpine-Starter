@@ -6,9 +6,9 @@
 					<div class="grid-item group">
 						<a href="{{ article.url }}">
 							{% if article.image %}
-								{{ article.image | image_url: width: 'master' | image_tag: loading: 'lazy', class: 'w-full h-80 object-cover' }}
+								{{ article.image | image_url: width: 400 | image_tag: loading: 'lazy', class: 'w-full h-80 object-cover rounded' }}
 								{% else %}
-									{{ 'image' | placeholder_svg_tag: 'w-full h-80 object-cover bg-gray-100' }}
+									{{ 'image' | placeholder_svg_tag: 'w-full h-80 object-cover bg-gray-100 rounded' }}
 							{% endif %}
 						</a>
 						<div class="pt-4">
