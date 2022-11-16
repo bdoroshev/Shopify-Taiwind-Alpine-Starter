@@ -1,35 +1,12 @@
-<script defer src="{{ '3d-model.js' | asset_url }}"></script>
-
 {% case media.media_type %}
   {% when 'image' %}
-    {{
-      media
-      | image_url: width: 600
-      | image_tag: loading: 'lazy', class: class
-    }}
+    {{ media | image_url: width: 600 | image_tag: loading: 'lazy', class: class }}
   {% when 'video' %}
     {{ media | video_tag: controls: true, class: class }}
   {% when 'external_video' %}
-    {{ media | external_video_tag: class: class }}
+    {{ media | external_video_tag: class: 'aspect-video w-full' }}
   {% when 'model' %}
-    <product-model data-media-id="{{ media.id }}">
-      <div>
-        <button
-          id="productModelOpenButton_{{ media.id }}"
-          x-on:click="productModalOpen = true"
-          class="w-full h-full bg-gray-100 border relative"
-        >
-          <span class="border bg-gray-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            {% render 'icon-model-viewer' %}
-          </span>
-					{{ media | image_url: width: 600 | image_tag: loading: 'lazy', class: 'w-full h-full object-cover' }}
-        </button>
-      </div>
-
-      <template>
-        {{ media | model_viewer_tag: reveal: 'interaction' }}
-      </template>
-    </product-model>
+    {{ media | model_viewer_tag: reveal: 'interaction', class: 'w-full min-h-[400px] md:min-h-[200px]' }}
   {% else %}
     {{ media | media_tag }}
 {% endcase %}

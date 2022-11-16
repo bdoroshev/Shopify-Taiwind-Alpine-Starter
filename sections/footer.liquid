@@ -1,5 +1,5 @@
 <footer>
-	<div class="py-10 container grid grid-cols-{{ section.blocks.size | plus: 1 }} md:grid-cols-1 md:text-center gap-8">
+	<div class="py-10 container grid grid-cols-3 md:grid-cols-1 md:text-center gap-8">
 		{% if section.settings.logo != blank %}
 			<a href="/">
 				{{ section.settings.logo | image_url: width: 200 | image_tag: loading: 'lazy', class: 'md:mx-auto' }}

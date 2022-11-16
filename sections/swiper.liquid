@@ -1,0 +1,59 @@
+<div class="container">
+	<div class="swiper-name swiper relative !h-fit">
+		<div class="swiper-wrapper">
+				{% for block in section.blocks %}
+					<div class="swiper-slide">
+						{% if block.settings.image %}
+							{{ block.settings.image | image_url: width: 400 | image_tag: loading: 'lazy' }}
+							{% else %}
+							{{ 'product-1' | placeholder_svg_tag }}
+						{% endif %}
+					</div>
+				{% endfor %}
+		</div>
+		<div class="swiper-button-prev !text-accent"></div>
+		<div class="swiper-button-next !text-accent"></div>
+	</div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+	const swiperName = () => {
+		new Swiper('.swiper-name', {
+			slidesPerView: 3,
+			pagination: {
+				el: '.swiper-pagination',
+			},
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev',
+			},
+		});
+	}
+
+	swiperName();
+	
+	document.addEventListener('shopify:section:load', () => {
+		swiperName();
+	});
+});
+</script>
+
+{% schema %}
+{
+  "name": "swiper",
+  "blocks": [
+    {
+      "type": "slider",
+      "name": "slider",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

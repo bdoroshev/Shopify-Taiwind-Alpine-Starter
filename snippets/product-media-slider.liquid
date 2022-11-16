@@ -1,5 +1,3 @@
-{{ 'swiper.css' | asset_url | stylesheet_tag }}
-
 <div class="product-swiper swiper relative !h-fit">
   <div class="swiper-wrapper">
 			{% for media in product.media %}
@@ -15,30 +13,30 @@
 	<div class="swiper-wrapper">
 		{% for media in product.media %}
 			<div class="swiper-slide">
-				{% render 'product-media', media: media, class: 'w-full min-w-full cursor-pointer h-32 object-cover' %}
+				{{ media | image_url: width: 350 | image_tag: loading: 'lazy', class: 'w-full min-w-full cursor-pointer h-32 object-cover md:h-20' }}
 			</div>
 		{% endfor %}
 	</div>
 </div>
 
-<script defer src="{{ 'swiper.js' | asset_url }}"></script>
-
 <script>
-const productSwiperThumbs = new Swiper(".product-swiper__thumbnails", {
-	spaceBetween: 10,
-	slidesPerView: 4,
-	freeMode: true,
-	watchSlidesProgress: true
-});
+document.addEventListener('DOMContentLoaded', () => {
+	const productSwiperThumbs = new Swiper(".product-swiper__thumbnails", {
+		spaceBetween: 10,
+		slidesPerView: 4,
+		freeMode: true,
+		watchSlidesProgress: true
+	});
 
-const productSwiper = new Swiper('.product-swiper', {
-	autoHeight: true,
-	navigation: {
-		nextEl: '.swiper-button-next',
-		prevEl: '.swiper-button-prev',
-	},
-	thumbs: {
-		swiper: productSwiperThumbs
-	}
+	const productSwiper = new Swiper('.product-swiper', {
+		autoHeight: true,
+		navigation: {
+			nextEl: '.swiper-button-next',
+			prevEl: '.swiper-button-prev',
+		},
+		thumbs: {
+			swiper: productSwiperThumbs
+		}
+	});
 });
 </script>

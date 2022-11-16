@@ -6,11 +6,11 @@
 						{% render 'account-navigation' %}
 				</div>
 						<div class="py-2">
-								<h2 class="text-base pb-2 font-semibold">{{ customer.name }}</h2>
+								<h2 class="pb-2 font-semibold">{{ customer.name }}</h2>
 								{{ customer.email }}
 						</div>
 						<div class="py-2">
-								<h2 class="text-base pb-2 font-semibold">Default Address</h2>
+								<h2 class="pb-2 font-semibold">Default Address</h2>
 								{{ customer.default_address | format_address }}
 						</div>
 						</div>

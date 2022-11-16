@@ -13,9 +13,9 @@
 					</a>
 						<h3 class="font-bold hover:text-accent"><a href="{{ item.url }}">{{ item.product.title }}</a></h3>
 						{% if item.variant.title != 'Default Title' and item.variant.title != 'No Color / OS' and item.variant.title != 'NC / OS' %}
-							<div class="text-xs mt-1 mb-2">{{ item.variant.title }}</div>
+							<div class="text-xs mt-1">{{ item.variant.title }}</div>
 						{% endif %}
-						<p>{{ item.final_line_price | money }}</p>
+						<p class="font-bold my-2">{{ item.final_line_price | money }}</p>
 						<div class="flex items-center gap-3">
 							{% render 'product-quantity', product: item, product_index: forloop.index, cart_page: true %}
 							<button 

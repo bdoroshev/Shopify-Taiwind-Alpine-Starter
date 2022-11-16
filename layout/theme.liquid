@@ -21,16 +21,20 @@
 
     {% render 'meta-tags' %}
     {{ 'style.css' | asset_url | stylesheet_tag }}
-		<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		<script defer src="{{ 'alpine.js' | asset_url }}"></script>
 		
 		<script defer src="{{ 'global-functions.js' | asset_url }}"></script>
+		
+		{{ 'swiper.css' | asset_url | stylesheet_tag }}
+		<script defer src="{{ 'swiper.js' | asset_url }}"></script>
+
     {{ content_for_header }}
   </head>
 
   <body class="text-textColor">
 		<div class="w-full min-h-screen flex flex-col">
 			{% section 'announcement-bar' %}
-			<div class="sticky-header bg-white sticky top-0">
+			<div class="sticky-header bg-white sticky top-0 z-10">
     		{% section 'header' %}
 				{% render 'sticky-header-scroll-hide' %}
 			</div>
@@ -39,7 +43,7 @@
 			</main>
 			{% section 'subscribe-newsletter' %}
 			{% section 'footer' %}
-			{% render 'cart-drawer' %}
+			{% section 'cart-drawer' %}
 		</div>
   </body>
 </html>

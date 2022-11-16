@@ -48,13 +48,7 @@
                             <div class="flex -space-x-2 overflow-hidden">
                               {% for order_line in order.line_items limit: 3 %}
                                 {% if order_line.image %}
-                                  {{
-                                    order_line.image
-                                    | image_url: width: 200
-                                    | image_tag:
-                                      loading: 'lazy',
-                                      class: 'inline-block w-8 h-8 md:h-6 md:w-6 rounded-full border object-cover'
-                                  }}
+                                  {{ order_line.image | image_url: width: 200 | image_tag: loading: 'lazy', class: 'inline-block w-8 h-8 md:h-6 md:w-6 rounded-full border object-cover' }}
                                 {% endif %}
                               {% endfor %}
                             </div>

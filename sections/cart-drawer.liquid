@@ -26,6 +26,7 @@
 		class="overlay transition-all z-30 w-screen h-screen top-0 fixed bg-textColor/70"
 	>
 	</div>
+	
 	<div
 		x-cloak
 		:class="showCartDrawer ? 'right-0' : '-right-[100vw]'"
@@ -41,9 +42,8 @@
 			</span>
 		</div>
 		{% render 'loader' %}
-		<div x-ref="cart_drawer_content" >
+		<div x-ref="cart_drawer_content">
 			{% render 'cart-drawer-content' %}
 		</div>
-
 	</div>
 </div>
