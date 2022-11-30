@@ -1,0 +1,51 @@
+<div class="container my-8 max-w-[400px] text-center">
+  <h1 class="text-3xl font-bold">Activate account</h1>
+  <p class="mt-4">Create your password to activate your account</p>
+  <div>
+    {% form 'activate_customer_password',
+      class: 'space-y-4',
+      id: 'activate_account_form'
+    %}
+		{% if form.errors %}
+			<div class="flex flex-row items-center justify-center w-full my-3">
+				{% for error in form.errors %}
+					<div class="text-red-500">
+						{% render 'icon-failed' %}
+					</div>
+					<p class="text-red-500 text-sm font-bold ml-2">
+						{{ form.errors.translated_fields[error] }} - {{ form.errors.messages[error] }}
+					</p>
+				{% endfor %}
+			</div>
+		{% endif %}
+      <div>
+        <label for="password" class="sr-only">Password</label>
+        <input
+          type="password"
+          name="customer[password]"
+          id="password"
+          placeholder="Password"
+          class="input"
+          autocomplete="new-password"
+					required
+        >
+      </div>
+      <div>
+        <label for="confirm_password" class="sr-only">Confirm Password</label>
+        <input
+          type="password"
+          name="customer[password_confirmation]"
+          id="confirm_password"
+          placeholder="Confirm password"
+          class="input"
+          autocomplete="new-password"
+					required
+        >
+      </div>
+      <button type="submit" class="button w-full">Activate account</button>
+      <button type="submit" name="decline" class="link mt-3">
+        Decline Invitation
+      </button>
+    {% endform %}
+  </div>
+</div>

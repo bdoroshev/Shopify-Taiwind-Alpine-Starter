@@ -1,0 +1,159 @@
+<div class="container">
+	<div class="grid md:grid-cols-2 md:gap-10 grid-cols-1 gap-5">
+		<div>
+			{% if product.media.size > 1 %}
+				{% render 'product-media-slider' %}
+				{% else %}
+					{% for media in product.media %}
+						{% render 'product-media', media: media %}
+					{% endfor %}
+			{% endif %}
+		</div>
+		<div>
+			{% for block in section.blocks %}
+				{% case block.type %}
+
+					{%- when '@app' -%}
+						{% render block %}
+
+					{% when "vendor" %}
+						<div class="my-3">
+							<span class="text-xs">
+								{{ product.vendor }}
+							</span>
+						</div>
+
+					{% when 'title' %}
+						<div class="my-3">
+							<h1 class="text-3xl">{{ product.title }}</h1>
+						</div>
+						
+					{% when 'description' %}
+						<p class="my-3">
+							{{ product.description }}
+						</p>
+
+					{% when 'variant_selector' %}
+						<div class="my-3">
+							{% unless product.has_only_default_variant %}
+								{% render 'product-variant-selector', product: product %}
+							{% endunless %}
+						</div>
+					
+					{% when 'quantity' %}
+						<div class="my-3">
+							<p class="font-bold mb-1">Quantity</p>
+							{% render 'product-quantity' %}
+						</div>
+
+					{% when 'price' %}
+						<div class="my-3 font-bold text-4xl text-accent" id="price-{{ section.id }}">
+							{{ product.selected_or_first_available_variant.price | money }}
+							{% if  product.selected_or_first_available_variant.compare_at_price > product.selected_or_first_available_variant.price -%}
+								<s class="text-red-700"> {{ product.selected_or_first_available_variant.compare_at_price | money }}</s>
+							{% endif %}
+						</div>
+
+					{% when 'checkout_buttons' %}
+						<div x-data="{ 
+								quantity: 1
+              }"
+							@quantity-changed.window="quantity = $event.detail.quantity"
+						>
+							{% assign product_form_installment_id = 'product-form-installment-' | append: section.id %}
+							{% form 'product', product, id: product_form_installment_id , novalidate: 'novalidate', x-ref: 'product_form' %}
+								<input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+								<input type="hidden" name="quantity" x-model="quantity" />
+								<button 
+									type="submit"
+									name="add"
+									class="product-section__cart-button button my-3"
+									@click.prevent="Functions.addToCart($refs.product_form)"
+									{% unless product.selected_or_first_available_variant.available %}
+										disabled
+									{% endunless %} >
+									{% unless product.selected_or_first_available_variant.available %}
+										{{ block.settings.sold_out }}
+										{% else %}
+											{{ block.settings.add_to_cart }}
+									{% endunless %}
+								</button>
+
+								{% if block.settings.dynamic_buttons %}
+									{{ form | payment_button }}
+								{% endif %}
+
+							{% endform %}
+						</div>
+
+				{% endcase %}
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+{% schema %}
+{
+  "name": "Product",
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "vendor",
+      "name": "Vendor",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "variant_selector",
+      "name": "Variant Selector",
+      "limit": 1
+    },
+    {
+      "type": "quantity",
+      "name": "Quantity",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1
+    },
+    {
+      "type": "checkout_buttons",
+      "name": "Checkout Buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "add_to_cart",
+          "label": "Add to cart button text",
+          "default": "Add to Cart"
+        },
+        {
+          "type": "text",
+          "id": "sold_out",
+          "label": "Sold Out button text",
+          "default": "Sold Out"
+        },
+        {
+          "type": "checkbox",
+          "id": "dynamic_buttons",
+          "label": "Allow Dynamic Buttons",
+          "default": false
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

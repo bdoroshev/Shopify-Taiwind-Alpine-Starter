@@ -1,0 +1,54 @@
+<div
+  class="fixed z-30 inset-0 overflow-y-auto"
+  x-cloak
+  x-show="openDelete"
+  x-transition.opacity
+  aria-modal="true"
+  aria-labelledby="modal-headline"
+>
+  <div class="flex items-center justify-center min-h-screen">
+    <div
+      class="fixed inset-0 bg-textColor/70"
+      x-show="openDelete"
+      @click="openDelete = false; deleteId = null"
+    ></div>
+
+    <div
+      class="inline-block align-bottom bg-white rounded text-left p-6 overflow-hidden shadow-xl transform transition-all mx-[20px]"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="Delete Address"
+    >
+      <h3
+        class="text-lg mb-3 text-center font-bold"
+        id="modal-headline"
+      >
+        Are you sure?
+      </h3>
+      <div class="flex justify-center">
+        <button
+          type="button"
+          @click="openDelete = false; deleteId = null"
+          class="button__secondary rounded-sm"
+        >
+          Cancel
+        </button>
+
+        <form
+          data-address-delete-form
+          method="post"
+          :action="'/account/addresses/'+deleteId"
+          data-confirm-message="{{ 'customer.addresses.delete_confirm' | t }}"
+        >
+          <input type="hidden" name="_method" value="delete">
+          <button
+            type="submit"
+            class="button bg-red-600 border-red-600 hover:bg-red-900 ml-3"
+          >
+            Delete Address
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="container mx-auto">
+  {% paginate search.results by 8 %}
+    <h1 class="text-3xl font-bold my-4 text-center">Search Results</h1>
+    <form
+      action="{{ routes.search_url }}"
+      method="GET"
+      class="flex align-center justify-center mt-3"
+    >
+      <input
+        type="search"
+        name="q"
+        id="Search"
+        value="{{ search.terms | escape }}"
+        class="input rounded-r-none border-r-0 max-w-[250px]"
+      >
+      <button type="submit" class="button rounded-l-none">Subscribe</button>
+    </form>
+    {% if search.performed %}
+      {% if search.results.size > 0 %}
+        <p class="text-center my-10">
+          {{ search.results.size }} results for the search term
+          <b>{{ search.terms | escape }}</b>
+        </p>
+        <div class="grid md:grid-cols-4 grid-cols-2 gap-4">
+          {% for item in search.results %}
+            {% render 'collection-product-card',
+              product: item,
+              image_class: 'w-full md:h-[250px] h-[150px]'
+            %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-center my-4">
+          <p>
+            No results found for the search term: <b>{{ search.terms | escape }}</b>.
+            Try to use a different keyword
+          </p>
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% render 'pagination', paginate: paginate %}
+  {% endpaginate %}
+</div>

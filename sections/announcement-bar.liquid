@@ -1,0 +1,31 @@
+<div class="bg-accent py-3 text-center" style="background-color: {{ section.settings.bg_color }}">
+	<div class="container" style="color: {{ section.settings.color }}">
+		{{ section.settings.text }}
+	</div>
+	
+</div>
+
+{% schema %}
+{
+  "name": "Annoncement Bar",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Annoncement Bar Text",
+      "default": "<p>Welcome to Doroshev Tailwind/Alpine Shopify custom theme Template</p>"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Annoncement Bar Background Color"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "default": "#ffffff",
+      "label": "Annoncement Bar Text Color"
+    }
+  ]
+}
+{% endschema %}

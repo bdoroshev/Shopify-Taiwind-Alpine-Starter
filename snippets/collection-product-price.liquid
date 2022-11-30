@@ -1,0 +1,32 @@
+{% if product.available %}
+  <div class="{{ class }}">
+    {% if product.compare_at_price > product.price and product.price_varies %}
+      From {{ product.price_min | money }}
+      {% if product.compare_at_price > product.price %}
+        <s class="text-red-700">{{ product.compare_at_price_min | money }}</s>
+      {% endif %}
+      to {{ product.price_max | money }}
+      {% if product.compare_at_price > product.price -%}
+        <s class="text-red-700"> {{ product.compare_at_price_max | money }}</s>
+      {% endif %}
+    {% elsif product.compare_at_price > product.price %}
+      <span class="sr-only">{{ 'products.product.price.sale_price' | t }}</span>
+      {{ product.price | money }}
+      <s class="text-red-700">{{ product.compare_at_price | money }}</s>
+    {% elsif product.price_varies %}
+      From {{ product.price_min | money }}
+      {% if product.compare_at_price > product.price %}
+        <s class="text-red-700">{{ product.compare_at_price | money }}</s>
+      {% endif %}
+      to {{ product.price_max | money }}
+      {% if product.compare_at_price > product.price -%}
+        <s class="text-red-700"> {{ product.compare_at_price | money }}</s>
+      {% endif %}
+    {% else %}
+      <span class="sr-only">
+        {{- 'products.product.price.regular_price' | t -}}
+      </span>
+      {{ product.price | money }}
+    {% endif %}
+  </div>
+{% endif %}

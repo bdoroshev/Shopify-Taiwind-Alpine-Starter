@@ -1,12 +1,10 @@
 {
   "sections": {
-    "template": {
-      "type": "template-404",
-      "settings": {
-      }
+    "404": {
+      "type": "404"
     }
   },
   "order": [
-    "template"
+    "404"
   ]
 }

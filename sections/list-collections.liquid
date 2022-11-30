@@ -1,0 +1,37 @@
+<div class="container">
+  <h1 class="text-3xl font-bold text-center">{{ section.settings.title }}</h1>
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+    {% for collection in collections %}
+      {% if collection.all_products_count > 0 %}
+        <div class="group w-full py-6 px-3">
+          <a href="{{ collection.url }}">
+            <div class="h-80 overflow-hidden">
+							{% if collection.featured_image %}
+								{{ collection.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', class: 'w-full h-full object-cover transition duration-300 ease-in-out transform hover:scale-105' }}
+								{% else %}
+									{{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-cover transition duration-300 ease-in-out transform hover:scale-105' }}
+							{% endif %}
+            </div>
+          </a>
+          <h1 class="group-hover:text-accent text-xl font-bold mt-3">
+            {{ collection.title }}
+          </h1>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Template List Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Collections",
+      "label": "Title"
+    }
+  ]
+}
+{% endschema %}

@@ -1,44 +1,23 @@
-<div class="my-10 container">
-	<h1 class="text-center text-3xl">{{ section.settings.title }}</h1>
-	<div class="grid grid-cols-3 md:grid-cols-1 gap-10">
-		{% for product in section.settings.featured_collection.products limit: section.settings.number_of_products_to_show %}
-			{% render 'product-card', product: product %}
-			{% else %}
-				{% for item in (1..section.settings.number_of_products_to_show) %}
-					{% render 'product-cart-placeholder' %}
-				{% endfor %}
-		{% endfor %}
-	</div>
+<div class="container">
+	<h2 class="text-center font-bold text-2xl mb-6">{{ section.settings.title }}</h2>
+	{% render 'collection-product-grid', limit: 3, grid_class: 'grid-cols-3', image_class: 'md:h-[300px] w-auto h-[150px]', collection: section.settings.featured_collection %}
 </div>
 
 {% schema %}
 {
-	"name": "Featured Collection",
-	"settings": [
-		{
-			"type": "text",
-			"id": "title",
-			"default": "Featured Collection",
-			"label": "Title"
-		},
-		{
-			"type": "collection",
-			"id": "featured_collection",
-			"label": "Collection"
-		},
-		{
-			"type": "range",
-			"id": "number_of_products_to_show",
-			"min": 3,
-			"max": 12,
-			"default": 3,
-			"label": "Number of Products to Show"
-		}
-	],
-	"presets": [
-		{
-			"name": "Featured Collection"
-		}
-	]
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Featured Products",
+      "label": "Title"
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Collection"
+    }
+  ]
 }
 {% endschema %}

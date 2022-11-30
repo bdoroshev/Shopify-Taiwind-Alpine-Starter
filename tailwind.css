@@ -5,11 +5,64 @@
 @layer base {
 	body{
 		font-family: 'Roboto', sans-serif;
+		scroll-behavior: smooth;
+	}
+	input[type='number']::-webkit-outer-spin-button,
+	input[type='number']::-webkit-inner-spin-button,
+	input[type='number'] {
+		-webkit-appearance: none;
+		margin: 0;
+		-moz-appearance: textfield !important;
 	}
 }
 
 @layer components{
 	.container{
-		@apply max-w-[1180px]
+		@apply max-w-[1280px]
 	}
+	.button, .shopify-challenge__button{
+		@apply inline-block text-white transition bg-accent md:px-10 px-2 w-full md:w-fit py-3 rounded-xl hover:bg-[#004c3f] active:bg-[#002e25] focus:shadow-[0_0_0.1875em_0.1875em_rgba(0,128,96,0.5)] cursor-pointer text-center
+	}
+	.input{
+		@apply w-full border rounded-xl px-4 h-[50px] outline-accent
+	}
+	.link{
+		@apply inline-block text-sm underline hover:text-accent hover:no-underline
+	}
+}
+
+[x-cloak] {
+	display: none !important
+}
+
+/* Basic Shopify Policy Pages styling */
+.shopify-policy__container{
+	@apply max-w-[1020px] px-[20px] !important
+}
+
+.shopify-policy__title{
+	@apply text-3xl font-bold mb-5 !important
+}
+
+/* Basic Shopify Classes styling */
+.grecaptcha-badge{
+	display: none !important
+}
+
+.shopify-challenge__container{
+	min-height: 50vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.shopify-payment-button__button{
+	@apply opacity-100 text-white transition bg-textColor md:px-10 px-2 w-full md:w-fit py-3 rounded-xl hover:bg-[#000] cursor-pointer !important
+}
+
+.g-recaptcha{
+	margin-top: 20px;
+	margin-bottom: 20px;
 }

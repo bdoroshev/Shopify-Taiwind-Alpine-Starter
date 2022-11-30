@@ -1,0 +1,124 @@
+<div>
+	<div class="fitlers relative md:mr-8 mb-2 md:m-0 md:min-w-[250px] md:w-[250px] w-full min-w-full" 
+		x-data="{
+			loading: false,
+		}"
+		@filter-updated.window="$nextTick(() => {
+			const queryString = new URLSearchParams(new FormData($refs.filter_form)).toString()
+			
+			loading = true;
+			fetch('/collections/{{ collection.handle }}?' + queryString)
+				.then(response => response.text())
+				.then(data => {
+					let html_div = document.createElement('div');
+					html_div.innerHTML = data;
+					let html_dom = html_div.querySelector('.ajax-collection').innerHTML;
+					document.querySelector('.ajax-collection').innerHTML = html_dom;
+					// update url without refreshing the page 
+					history.replaceState(null, null, '?' + queryString);
+				})
+				.catch(error => console.error('Error:', error))
+				.finally(() => loading = false);
+			
+		})"
+		>
+			<h4 class="filters__title font-semibold pb-4 border-b">Filters</h4>
+
+			{% render 'loader' %}
+
+			<form class="filter-form divide-y divide-gray-300" x-ref="filter_form">
+					{%- for filter in collection.filters -%}
+						<details class="filter-group">
+							<summary class="filter-group-summary flex justify-between py-3 cursor-pointer">
+								<div>
+									<span class="font-semibold">{{ filter.label }}</span>
+				
+									{%- if filter.active_values.size > 0 -%}
+										<span class="text-sm ml-2">({{ filter.active_values.size }})</span>
+									{%- endif -%}
+								</div>
+								<span class="arrow-icon">
+										{% render 'icon-arrow-right' %}
+								</span>
+							</summary>
+				
+							<div class="filter-group-display pb-3">
+								<div class="filter-group-display__header flex justify-between items-center">
+									{%- if filter.active_values.size > 0 -%}
+										<span class="filter-group-display__header-selected text-sm">{{ filter.active_values.size }} selected</span>
+										<a href="{{ filter.url_to_remove }}" class="reset-button bg-gray-200 py-1 px-3 text-sm rounded-sm">Reset</a>
+									{%- endif -%}
+								</div>
+				
+								{%- case filter.type -%}
+									{%- when 'boolean' or 'list' -%}
+										<ul class="filter-group-display__list">
+											{%- for filter_value in filter.values -%}
+												<li class="filter-group-display__list-item py-2">
+													<label class="flex items-center" for="Filter-{{ filter.param_name }}-{{ forloop.index }}">
+													<input type="checkbox"
+														class="mr-2 accent-accent"
+														@change="$dispatch('filter-updated')"
+														name="{{ filter_value.param_name }}"
+														value="{{ filter_value.value }}"
+														id="Filter-{{ filter.param_name }}-{{ forloop.index }}"
+														{% if filter_value.active -%}checked{%- endif %}
+														{% if filter_value.count == 0 and filter_value.active == false -%}disabled{%- endif %}
+													>
+													<div class="flex justify-between w-full text-sm">
+														<span class="{% if filter_value.active -%} font-semibold {%- endif %}">{{ filter_value.label }} </span>
+														<span>{{ filter_value.count }}</span>
+													</div>
+												</label>
+												</li>
+											{%- endfor -%}
+										</ul>
+				
+									{%- when 'price_range' -%}
+										<div class="filter-group-display__price-range my-2 flex justify-between space-x-3">
+											<div class="filter-group-display__price-range-from">
+
+												<label for="Filter-{{ filter.min_value.param_name }}" class="block">From</label>
+												<span>{{ cart.currency.symbol }}</span>
+												<input name="{{ filter.min_value.param_name }}"
+													id="Filter-{{ filter.min_value.param_name }}"
+													class="border border-gray-400 rounded-sm p-1 w-full"
+													{% if filter.min_value.value -%}
+														value="{{ filter.min_value.value | money_without_currency }}"
+													{%- endif %}
+													type="number"
+													placeholder="0"
+													min="0"
+													max="{{ filter.range_max | money_without_currency }}"
+												>
+				
+											</div>
+											<div class="filter-group-display__price-range-to">
+												<label for="Filter-{{ filter.max_value.param_name }}" class="block">To</label>
+
+												<span>{{ cart.currency.symbol }}</span>
+												<input name="{{ filter.max_value.param_name }}"
+													id="Filter-{{ filter.max_value.param_name }}"
+													class="border border-gray-400 rounded-sm p-1 w-full"
+													{% if filter.max_value.value -%}
+														value="{{ filter.max_value.value | money_without_currency }}"
+													{%- endif %}
+													type="number"
+													placeholder="{{ filter.range_max | money_without_currency }}"
+													min="0"
+													max="{{ filter.range_max | money_without_currency }}"
+												>
+				
+											</div>
+										</div>
+										  <div class="filter-group-display__submit flex justify-end">
+											<button type="submit" class="bg-black text-white py-1 px-3 text-sm rounded-sm"> Apply </button>
+										</div>
+								{%- endcase -%}
+							</div>
+						</details>
+					{%- endfor -%}  
+			</form>
+				
+	</div>
+</div>

@@ -1,18 +1,5 @@
 {
-  "current": {
-    "sections": {
-      "header2": {
-        "type": "header2",
-        "settings": {
-          "logo": "shopify:\/\/shop_images\/message.png",
-          "menu": "main-menu"
-        }
-      }
-    },
-    "content_for_index": [
-
-    ]
-  },
+  "current": "Default",
   "presets": {
     "Default": {
     }

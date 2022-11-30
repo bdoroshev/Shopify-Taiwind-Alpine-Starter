@@ -1,0 +1,30 @@
+<div class="container">
+	{% paginate blog.articles by 6 %}
+		<h1 class="text-center text-3xl font-bold mb-5">{{ blog.title }}</h1>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+				{% for article in blog.articles %}
+					<div class="grid-item group">
+						<a href="{{ article.url }}">
+							{% if article.image %}
+								{{ article.image | image_url: width: 400 | image_tag: loading: 'lazy', class: 'w-full h-80 object-cover rounded' }}
+								{% else %}
+									{{ 'image' | placeholder_svg_tag: 'w-full h-80 object-cover bg-gray-100 rounded' }}
+							{% endif %}
+						</a>
+						<div class="pt-4">
+							<a href="{{ article.url }}">
+								<h1 class="text-xl font-medium mb-3 group-hover:text-accent">{{ article.title }}</h1>
+							</a>
+							{% if article.excerpt.size > 0 %}
+								<p>{{ article.excerpt | strip_html | truncatewords: 15 }}</p>
+								{% else %}
+									<p>{{ article.content | strip_html | truncatewords: 15 }}</p>
+							{% endif %}
+							<a href="{{ article.url }}" class="button mt-3">Read more</a>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+			{% render 'pagination', paginate: paginate %}
+	{% endpaginate %}
+</div>

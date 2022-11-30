@@ -1,0 +1,123 @@
+
+<div class="register max-w-sm mx-auto px-2">
+
+  <div class="h-full md:my-6 my-8">
+      <header class="flex justify-between items-center text-center mb-4">
+        <h2 class="text-2xl uppercase w-full font-bold" tabindex="-1"> Register </h2>
+      </header>
+      <div class="flex items-center h-full">
+        <div class="w-full">
+           
+            {%- form 'create_customer', novalidate: 'novalidate' -%}
+
+              {% if form.errors %}
+								<div class="flex flex-row items-center justify-center w-full my-3">
+									{% for error in form.errors %}
+										<div class="text-red-500">
+											{% render 'icon-failed' %}
+										</div>
+										<p class="text-red-500 text-sm font-bold ml-2">
+											{{ form.errors.translated_fields[error] | capitalize }} - {{ form.errors.messages[error] }}
+										</p>
+									{% endfor %}
+								</div>
+							{% elsif form.posted_successfully? %}
+								<div class="flex flex-row items-center justify-center w-full gap-2 my-5">
+									<div class="text-green-500">
+										{% render 'icon-success' %}
+									</div>
+									<p class="text-green-500 font-bold text-center">
+										Message is sent successfully
+									</p>
+								</div>
+							{% endif %}
+
+              <div class="flex flex-col mb-3 mt-1"> 
+                <label for="RegisterForm-FirstName" class="sr-only tracking-widest">
+                  First Name
+                </label>     
+                <input
+                  type="text"
+                  name="customer[first_name]"
+                  id="RegisterForm-FirstName"
+                  placeholder="First Name"
+                  class="input"
+                  {% if form.first_name %}value="{{ form.first_name }}"{% endif %}
+                  autocomplete="given-name"
+									required
+                >
+              
+              </div>
+              <div class="flex flex-col mb-3">
+                <label for="RegisterForm-LastName" class="sr-only tracking-widest">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="customer[last_name]"
+                  id="RegisterForm-LastName"
+                  placeholder="Last Name"
+                  {% if form.last_name %}value="{{ form.last_name }}"{% endif %}
+                  autocomplete="family-name"
+                  class="input"
+									required
+                >
+              
+              </div>
+              <div class="flex flex-col mb-3">
+                <label for="RegisterForm-email" class="sr-only tracking-widest">
+                  Email
+                </label>  
+                <input
+                  type="email"
+                  name="customer[email]"
+                  id="RegisterForm-email"
+                  placeholder="Email"
+                  {% if form.email %} value="{{ form.email }}"{% endif %}
+                  spellcheck="false"
+                  autocapitalize="off"
+                  autocomplete="email"
+                  aria-required="true"
+                  class="input"
+                  {% if form.errors contains 'email' %}
+                    aria-invalid="true"
+                    aria-describedby="RegisterForm-email-error"
+                  {% endif %}
+									required
+                >
+              </div>
+
+              <div class="flex flex-col mb-6"> 
+                <label for="RegisterForm-password" class="sr-only tracking-widest">
+                  Password
+                </label>    
+                <input
+                  type="password"
+                  name="customer[password]"
+                  id="RegisterForm-password"
+                  aria-required="true"
+                  placeholder="Password"
+                  class="input"
+									required
+                >
+            
+              </div>
+              
+              <button class="button justify-center w-full">
+                Submit
+              </button>
+
+              <p class="my-4 text-sm tracking-widest block w-full text-center">
+                Do you already have an account?
+                <a href="{{ routes.account_login_url }}" class="link">
+									Back to Login page
+                </a>
+              </p>
+          {%- endform -%}
+
+          </div>
+
+      </div>
+  </div>
+
+</div>

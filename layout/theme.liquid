@@ -1,25 +1,46 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
   <head>
-    <title>{{ page_title }}</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="description" content="{{ page_description | escape }}" />
-    <link rel="canonical" href="{{ canonical_url }}" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
-    {{ content_for_header }}
-    <!-- Header hook for plugins -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+		
+		<link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+
+    {% render 'meta-tags' %}
     {{ 'style.css' | asset_url | stylesheet_tag }}
-		<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-		<style>
-			[x-cloak] {display:none !important}
-		</style>
+		<script defer src="{{ 'slider.js' | asset_url }}"></script>
+		<script defer src="{{ 'alpine.js' | asset_url }}"></script>
+		<script defer src="{{ 'global-functions.js' | asset_url }}"></script>
+
+    {{ content_for_header }}
   </head>
-  <body>
-    {% section 'header2' %}
-    <main role="main">
-      {{ content_for_layout }}
-    </main>
-		{% section 'footer' %}
+
+  <body class="text-textColor">
+		<div class="w-full min-h-screen flex flex-col">
+			{% section 'announcement-bar' %}
+			<div class="sticky-header bg-white sticky top-0 z-10">
+    		{% section 'header' %}
+				{% render 'sticky-header-scroll-hide' %}
+			</div>
+			<main role="main" class="flex-grow" tabindex="-1">
+				{{ content_for_layout }}
+			</main>
+			{% section 'subscribe-newsletter' %}
+			{% section 'footer' %}
+			{% section 'cart-drawer' %}
+		</div>
   </body>
 </html>

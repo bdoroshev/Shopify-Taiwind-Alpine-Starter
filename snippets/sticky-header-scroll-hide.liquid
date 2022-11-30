@@ -1,0 +1,59 @@
+
+<!-- Sticky Header Scroll Hide function -->
+<script>
+	const body = document.body;
+	const scrollUp = "scroll-up";
+	const scrollDown = "scroll-down";
+	let lastScroll = 0;
+	
+	window.addEventListener("scroll", () => {
+		const currentScroll = window.pageYOffset;
+		if (currentScroll <= 100) {
+			body.classList.remove(scrollUp);
+			return;
+		}
+	
+		if (currentScroll > lastScroll && !body.classList.contains(scrollDown)) {
+			// down
+			body.classList.remove(scrollUp);
+			body.classList.add(scrollDown);
+		} else if (
+			currentScroll < lastScroll &&
+			body.classList.contains(scrollDown)
+		) {
+			// up
+			body.classList.remove(scrollDown);
+			body.classList.add(scrollUp);
+		}
+		lastScroll = currentScroll;
+	});
+</script>
+
+<!-- Sticky Header Scroll Hide Styling -->
+<style>
+	.scroll-up{
+		transition: .3s ease all;
+	}
+
+	.scroll-up .sticky-header{
+		opacity: 1;
+	}
+
+	.sticky-header{
+		z-index: 22;
+		top: 0;
+		position: sticky;
+		width: 100%;
+		transition: .3s ease all;
+		left: 0;
+	}
+
+	.scroll-down{
+		transition: .3s ease all;
+	}
+
+	.scroll-down .sticky-header{
+		opacity: 0;
+		z-index: -1;
+	}
+</style>
