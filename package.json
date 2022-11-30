@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "description": "Shopify Template Using Alpine.js and Tailwind css",
   "scripts": {
-    "tailwind": "npx tailwindcss -i ./tailwind.css -o ./assets/style.css --watch",
-    "shopify": "shopify theme serve",
-    "dev": "concurrently --kill-others \"npm run tailwind\" \"npm run shopify\""
+    "tailwind": "npx tailwindcss -i ./tailwind.css -o ./assets/style.css --watch --minify",
+    "dev": "npm run tailwind & shopify theme dev & open http://127.0.0.1:9292/"
   },
   "keywords": [
 
@@ -13,9 +12,6 @@
   "author": "Bogdan Doroshev",
   "license": "ISC",
   "devDependencies": {
-    "@shopify/prettier-plugin-liquid": "^0.4.0",
-    "concurrently": "^7.4.0",
-    "prettier": "^2.7.1",
     "tailwindcss": "^3.1.8"
   }
 }

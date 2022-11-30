@@ -1,5 +1,5 @@
 <!-- Desktop Menu -->
-<nav class="header__menu flex justify-center md:hidden">
+<nav class="header__menu md:flex justify-center hidden">
 	<ul
 		class="header__menu-nav flex gap-8"
 	>
@@ -39,7 +39,7 @@
 </nav>
 
 <!-- Mobile Menu -->
-<nav class="header__menu-mobile -order-1 hidden md:block" x-data="{ showBurgerMenu: false }">
+<nav class="header__menu-mobile -order-1 md:hidden block" x-data="{ showBurgerMenu: false }">
 	<button
 		:class="showBurgerMenu ? '' : ''"
 		@click="showBurgerMenu = !showBurgerMenu; document.body.classList.toggle('overflow-hidden')"

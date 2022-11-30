@@ -1,6 +1,6 @@
 <header>
 	<div class="container">
-		<div class="header grid grid-cols-[1fr_2fr_1fr] items-center py-[40px] md:py-[20px]">
+		<div class="header grid grid-cols-[1fr_2fr_1fr] items-center md:py-[40px] py-[20px]">
 			<!-- Logo -->
 			<div class="header__logo">
 				{% if section.settings.logo != blank %}
@@ -15,7 +15,7 @@
 			</div>
 
 			<!-- Navigation -->
-			<div class="relative md:static md:-order-1" x-data="{ showSearch: false }">
+			<div class="-order-1 md:relative md:order-none" x-data="{ showSearch: false }">
 				<div 
 					class="absolute -top-3 w-full bg-white z-10"
 					x-transition
@@ -29,12 +29,12 @@
 			</div>
 
 			<!-- Icons -->
-			<div class="header__icons flex items-center justify-end gap-3 md:gap-0" x-data="{ cart_count: {{ cart.item_count }}, showSearch: false }">
+			<div class="header__icons flex items-center justify-end md:gap-3 gap-0" x-data="{ cart_count: {{ cart.item_count }}, showSearch: false }">
 
 				<button 
 					type="button"
 					title="Search button"
-					class="md:hidden"
+					class="hidden md:block"
 					@click="$dispatch('toggle-search'); showSearch = !showSearch"
 				>
 					<div x-show="!showSearch">
@@ -46,7 +46,7 @@
 				</button>
 
         {%- if shop.customer_accounts_enabled -%}
-          <div class="account-menu-wrapper md:hidden">
+          <div class="account-menu-wrapper hidden md:block">
             <a href="{{ routes.account_url }}" 
               title="account link"
 						>

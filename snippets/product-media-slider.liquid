@@ -1,42 +1,31 @@
-<div class="product-swiper swiper relative !h-fit">
-  <div class="swiper-wrapper">
+<div class="slider-container" x-data="Slider">
+	<div class="slider-container__for-arrows relative">
+		<div 
+			class="slider overflow-x-auto flex snap-mandatory snap-x scroll-smooth"
+			x-ref="slider"
+			@keydown.right="next"
+			@keydown.right="left"
+		>
 			{% for media in product.media %}
-				<div class="swiper-slide">
-					{% render 'product-media', media: media, class: 'w-full min-w-full' %}
-				</div>
+				{% render 'product-media', media: media, class: 'w-full min-w-full', id: forloop.index %}
 			{% endfor %}
-  </div>
-  <div class="swiper-button-prev !text-accent"></div>
-  <div class="swiper-button-next !text-accent"></div>
-</div>
-<div class="product-swiper__thumbnails swiper mt-5">
-	<div class="swiper-wrapper">
+
+			<button @click="prev" class="text-xl absolute top-1/2 transform -translate-y-1/2 left-0 text-white bg-accent rounded-full h-10 w-10 mx-4 group">
+				<span aria-hidden="true" class="group-hover:-translate-x-1 block transition">❮</span>
+				<span class="sr-only">Previous slide</span>
+			</button>
+			<button @click="next" class="text-xl absolute top-1/2 transform -translate-y-1/2 right-0 text-white bg-accent rounded-full h-10 w-10 mx-4 group">
+				<span aria-hidden="true" class="group-hover:translate-x-1 block transition">❯</span>
+				<span class="sr-only">Next slide</span>
+			</button>
+		</div>
+	</div>
+
+	<div class="thumbnails overflow-x-auto flex snap-mandatory snap-x scroll-smooth gap-5 mt-5">
 		{% for media in product.media %}
-			<div class="swiper-slide">
-				{{ media | image_url: width: 350 | image_tag: loading: 'lazy', class: 'w-full min-w-full cursor-pointer h-32 object-cover md:h-20' }}
-			</div>
+			<a href="#{{ forloop.index }}" class="snap-start">
+				{{ media | image_url: width: 350 | image_tag: loading: 'lazy', class: 'w-full min-w-full cursor-pointer md:h-32 object-cover h-20' }}
+			</a>
 		{% endfor %}
 	</div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-	const productSwiperThumbs = new Swiper(".product-swiper__thumbnails", {
-		spaceBetween: 10,
-		slidesPerView: 4,
-		freeMode: true,
-		watchSlidesProgress: true
-	});
-
-	const productSwiper = new Swiper('.product-swiper', {
-		autoHeight: true,
-		navigation: {
-			nextEl: '.swiper-button-next',
-			prevEl: '.swiper-button-prev',
-		},
-		thumbs: {
-			swiper: productSwiperThumbs
-		}
-	});
-});
-</script>

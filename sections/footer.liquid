@@ -1,8 +1,8 @@
 <footer>
-	<div class="py-10 container grid grid-cols-3 md:grid-cols-1 md:text-center gap-8">
+	<div class="py-10 container grid md:grid-cols-3 grid-cols-1 text-center md:text-left gap-8">
 		{% if section.settings.logo != blank %}
 			<a href="/">
-				{{ section.settings.logo | image_url: width: 200 | image_tag: loading: 'lazy', class: 'md:mx-auto' }}
+				{{ section.settings.logo | image_url: width: 200 | image_tag: loading: 'lazy', class: 'mx-auto md:m-0' }}
 			</a>
 			{% else %}
 				<a href="/">

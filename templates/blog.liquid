@@ -1,7 +1,7 @@
 <div class="container">
 	{% paginate blog.articles by 6 %}
 		<h1 class="text-center text-3xl font-bold mb-5">{{ blog.title }}</h1>
-			<div class="grid md:grid-cols-1 grid-cols-3 gap-8">
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 				{% for article in blog.articles %}
 					<div class="grid-item group">
 						<a href="{{ article.url }}">

@@ -1,5 +1,5 @@
 {% assign sort_by = collection.sort_by | default: collection.default_sort_by %}
-<div class="collection__sort flex justify-end relative md:w-full" 
+<div class="collection__sort flex justify-end relative md:w-fit w-full" 
 	x-data="{
 		loading: false,
 		sort: '{{ sort_by }}',

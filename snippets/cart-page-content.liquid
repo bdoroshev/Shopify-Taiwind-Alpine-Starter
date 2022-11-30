@@ -3,8 +3,8 @@
     {% assign total_savings = 0 %}
     <div class="divide-y">
       {% for item in cart.items %}
-        <div class="cart-item py-5 grid grid-cols-[1fr_.3fr_.3fr] md:grid-cols-[1fr_.3fr] items-center">
-					<div class="flex items-center gap-3 md:items-start">
+				<div class="cart-item py-5 grid md:grid-cols-[1fr_.3fr_.3fr] grid-cols-[1fr_.3fr] items-center">
+				<div class="flex md:items-center gap-3 items-start">
 						<a
 							href="{{ item.url }}"
 							title="{{ item.product.title }}"
@@ -33,7 +33,7 @@
 								</span>
 							{% endif %}
 							<p class="text-md">{{ item.price | money }}</p>
-							<div class="hidden md:block mt-3">
+							<div class="md:hidden block mt-3">
 								{% render 'product-quantity',
 									product: item,
 									product_index: forloop.index,
@@ -51,7 +51,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="text-center pt-8 md:hidden">
+					<div class="text-center pt-8 md:block hidden">
 						{% render 'product-quantity',
 							product: item,
 							product_index: forloop.index,

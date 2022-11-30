@@ -1,12 +1,12 @@
 {% case media.media_type %}
   {% when 'image' %}
-    {{ media | image_url: width: 600 | image_tag: loading: 'lazy', class: class }}
+    {{ media | image_url: width: 600 | image_tag: loading: 'lazy', class: class, id: id }}
   {% when 'video' %}
-    {{ media | video_tag: controls: true, class: class }}
+    {{ media | video_tag: controls: true, class: class, id: id }}
   {% when 'external_video' %}
-    {{ media | external_video_tag: class: 'aspect-video w-full' }}
+    {{ media | external_video_tag: class: 'aspect-video w-full', id: id }}
   {% when 'model' %}
-    {{ media | model_viewer_tag: reveal: 'interaction', class: 'w-full min-h-[400px] md:min-h-[200px]' }}
+    {{ media | model_viewer_tag: reveal: 'interaction', class: 'w-full md:min-h-[400px] min-h-[200px]', id: id }}
   {% else %}
     {{ media | media_tag }}
 {% endcase %}

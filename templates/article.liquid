@@ -35,7 +35,7 @@
 
     <div
       itemprop="image"
-      class="bg-blue-100 rounded-lg mx-2 md:mx-auto overflow-hidden my-4"
+      class="bg-blue-100 rounded-lg md:mx-2 mx-auto overflow-hidden my-4"
     >
       {% if article.image != blank %}
 				{{ article.image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'w-full h-80 md:h-96 object-cover object-center' }}
@@ -43,7 +43,7 @@
         {% assign placeholder_image = 'lifestyle-2' %}
         {{
           placeholder_image
-          | placeholder_svg_tag: 'w-full h-80 md:h-96 object-cover object-center p-5'
+          | placeholder_svg_tag: 'w-full md:h-80 h-96 object-cover object-center p-5'
         }}
       {% endif %}
     </div>
@@ -113,7 +113,7 @@
               type="text"
               name="comment[author]"
               id="comment_author"
-              class="input md:col-span-2"
+              class="input col-span-2 md:col-span-1"
               placeholder="Full Name"
               required
             >
@@ -127,7 +127,7 @@
               type="email"
               name="comment[email]"
               id="comment_email"
-              class="input md:col-span-2"
+              class="input col-span-2 md:col-span-1"
               placeholder="Email"
               required
             >
@@ -146,7 +146,7 @@
             ></textarea>
           </div>
 					<div class="text-center">
-						<button type="submit" class="button md:w-full mt-5">Post comment</button>
+						<button type="submit" class="button w-full md:w-fit mt-5">Post comment</button>
 					</div>
         </div>
       {% endform %}

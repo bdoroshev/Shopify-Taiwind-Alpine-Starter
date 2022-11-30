@@ -21,11 +21,11 @@
           {{ search.results.size }} results for the search term
           <b>{{ search.terms | escape }}</b>
         </p>
-        <div class="grid grid-cols-4 md:grid-cols-2 gap-4">
+        <div class="grid md:grid-cols-4 grid-cols-2 gap-4">
           {% for item in search.results %}
             {% render 'collection-product-card',
               product: item,
-              image_class: 'w-full h-[250px] md:h-[150px]'
+              image_class: 'w-full md:h-[250px] h-[150px]'
             %}
           {% endfor %}
         </div>

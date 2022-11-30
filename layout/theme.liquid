@@ -21,12 +21,9 @@
 
     {% render 'meta-tags' %}
     {{ 'style.css' | asset_url | stylesheet_tag }}
+		<script defer src="{{ 'slider.js' | asset_url }}"></script>
 		<script defer src="{{ 'alpine.js' | asset_url }}"></script>
-		
 		<script defer src="{{ 'global-functions.js' | asset_url }}"></script>
-		
-		{{ 'swiper.css' | asset_url | stylesheet_tag }}
-		<script defer src="{{ 'swiper.js' | asset_url }}"></script>
 
     {{ content_for_header }}
   </head>

@@ -40,7 +40,7 @@
               %}
             </button>
           </div>
-          <div class="grid grid-cols-2 gap-3 md:grid-cols-1">
+          <div class="grid md:grid-cols-2 gap-3 grid-cols-1">
 						<label :for="'first_name'+address.id" class="sr-only">
 							First Name
 						</label>
@@ -182,7 +182,7 @@
           </div>
         </div>
 
-        <div class="flex flex-row md:flex-col justify-between mt-3 gap-5">
+        <div class="flex md:flex-row flex-col justify-between mt-3 gap-5">
           <label
             :for="'address_default_address_update'+address.id"
             class="whitespace-nowrap cursor-pointer flex items-center"
