@@ -1,0 +1,33 @@
+{% assign hasFilter = false %}
+	{%- for filter in collection.filters -%}
+		{%- for filter_value in filter.active_values -%}
+				{% assign hasFilter = true %}
+		{% endfor %}
+	{% endfor %}
+
+	<div class="active-filters flex gap-2 items-center flex-wrap">
+			{% if hasFilter %}
+				<a href="{{ collection.url }}?sort_by={{ collection.sort_by }}" class="active-filters__clear flex items-center border text-white text-sm py-1 px-3 bg-[#757575] rounded-full">
+					Clear all
+					<span>{% render 'icon-close', class: 'ml-2 w-5 fill-white' %}</span>
+				</a>
+			{% endif %}
+
+			{%- for filter in collection.filters -%}
+				{%- if filter.type == "price_range" -%}
+					{%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+						<a class="active-filters__remove-filter flex items-center border text-sm py-1 px-3 bg-[#d6d6d6] rounded-full" href="{{ filter.url_to_remove }}">
+							{%- assign min_value = filter.min_value.value | default: 0 -%}
+							{%- assign max_value = filter.max_value.value | default: filter.range_max -%}
+							{{ min_value | money }} - {{ max_value | money }} <span>{% render 'icon-close', class: 'ml-2 w-5 fill-textColor' %}</span>
+						</a>
+					{%- endif -%}
+				{%- else -%}
+					{%- for filter_value in filter.active_values -%}
+						<a class="active-filters__remove-filter flex items-center border text-sm py-1 px-3 bg-[#d6d6d6] rounded-full" href="{{ filter_value.url_to_remove }}">
+							{{ filter_value.label }} <span>{% render 'icon-close', class: 'ml-2 w-5 fill-textColor' %}</span>
+						</a>
+					{%- endfor -%}
+				{%- endif- %}
+			{%- endfor -%}
+	</div>

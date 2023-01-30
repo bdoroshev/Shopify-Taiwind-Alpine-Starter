@@ -1,0 +1,125 @@
+<form action="{{ routes.cart_url }}" method="post" class="h-full relative">
+  {% if cart.item_count > 0 %}
+    {% assign total_savings = 0 %}
+    <div class="divide-y">
+      {% for item in cart.items %}
+				<div class="cart-item py-5 grid md:grid-cols-[1fr_.3fr_.3fr] grid-cols-[1fr_.3fr] items-center">
+				<div class="flex md:items-center gap-3 items-start">
+						<a
+							href="{{ item.url }}"
+							title="{{ item.product.title }}"
+						>
+							{% if item.image %}
+                {{ item.image | image_url: width: 150 | image_tag: loading: 'lazy', class: 'w-full max-w-[150px] pr-3' }}
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'w-full max-w-[200px]' }}
+              {% endif %}
+						</a>
+						<div>
+							<h3 class="text-lg font-bold hover:text-accent">
+								<a
+									href="{{ item.url }}"
+									title="{{ item.product.title }}"
+								>
+									{{ item.product.title }}
+								</a>
+							</h3>
+							{% if item.variant.title != 'Default Title'
+								and item.variant.title != 'No Color / OS'
+								and item.variant.title != 'NC / OS'
+							%}
+								<span class="text-xs font-bold text-gray-500 my-2">
+									{{ item.variant.title }}
+								</span>
+							{% endif %}
+							<p class="text-md">{{ item.price | money }}</p>
+							<div class="md:hidden block mt-3">
+								{% render 'product-quantity',
+									product: item,
+									product_index: forloop.index,
+									cart_page: true
+								%}
+		
+								<button
+									type="button"
+									title="remove {{ item.title }}"
+									class="link mt-2"
+									@click.debounce="loading = true; Functions.changeQuantity({{ forloop.index }}, 0)"
+								>
+									Remove
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="text-center pt-8 md:block hidden">
+						{% render 'product-quantity',
+							product: item,
+							product_index: forloop.index,
+							cart_page: true
+						%}
+
+						<button
+							type="button"
+							title="remove {{ item.title }}"
+							class="link block text-center w-full mt-2"
+							@click.debounce="loading = true; Functions.changeQuantity({{ forloop.index }}, 0)"
+						>
+							Remove
+						</button>
+					</div>
+					<p class="font-bold text-right">{{ item.final_line_price | money }}</p>
+					</div>
+      {% endfor %}
+    </div>
+
+		<label
+			for="Cart-note"
+			class="sr-only"
+			>Note</label
+		>
+		<textarea
+			class="input resize-none h-24 py-3 mb-5"
+			name="note"
+			id="Cart-note"
+			placeholder="Note"
+		>{{ cart.note }}</textarea>
+
+		{%- if cart.cart_level_discount_applications.size > 0 -%}
+			<div
+				class="total-discounts flex justify-between font-bold pb-2  text-green-700"
+				aria-label="{{ 'customer.order.discount' | t }}"
+			>
+				{%- for discount in cart.cart_level_discount_applications -%}
+					<i class="flex space-x-1">
+						<span>{{ discount.title }} </span>
+					</i>
+					<span>(-{{ discount.total_allocated_amount | money }})</span>
+				{%- endfor -%}
+			</div>
+		{%- endif -%}
+
+		{% if total_savings > 0 %}
+			<div class="text-right pb-2 text-green-700 text-lg">
+				<span class="font-bold">Saving: </span>
+				<span>-{{ total_savings | money_with_currency }}</span>
+			</div>
+		{% endif %}
+
+		<div class="text-right pb-2 text-lg">
+			<span class="font-bold">Subtotal: </span>
+			<span>{{ cart.total_price | money_with_currency }}</span>
+		</div>
+
+		<div class="text-right mt-3">
+			<button name="checkout" type="submit" class="button">Checkout</button>
+		</div>
+  {% else %}
+    <div class="flex flex-col justify-center items-center gap-5 mt-10">
+      {% render 'icon-cart', class: 'mx-auto w-10 h-10' %}
+      <h3 class="text-3xl font-bold">Your cart is empty</h3>
+      <a href="{{ routes.all_products_collection_url }}" class="button">
+        Continue shopping
+      </a>
+    </div>
+  {% endif %}
+</form>

@@ -1,0 +1,10 @@
+<div class="container ajax-collection">
+	<div class="flex items-center justify-between mb-3 gap-3 flex-col-reverse md:flex-row">
+		{% render 'collection-filters-applied' %}
+		{% render 'collection-sort' %}
+	</div>
+	<div class="md:flex justify-between block mb-3">
+		{% render 'collection-filters' %}
+		{% render 'collection-product-grid', grid_class: 'md:grid-cols-4', image_class: 'md:h-[200px] w-auto h-[150px]', pagination: 12 %}
+	</div>
+</div>

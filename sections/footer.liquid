@@ -1,1 +1,87 @@
-<footer></footer>
+<footer>
+	<div class="py-10 container grid md:grid-cols-3 grid-cols-1 text-center md:text-left gap-8">
+		{% if section.settings.logo != blank %}
+			<a href="/">
+				{{ section.settings.logo | image_url: width: 200 | image_tag: loading: 'lazy', class: 'mx-auto md:m-0' }}
+			</a>
+			{% else %}
+				<a href="/">
+					{{ shop.name }}
+				</a>
+		{% endif %}
+		{% for block in section.blocks %}
+			{% case block.type %}
+				{% when 'menu' %}
+					<div>
+						<h3>{{ block.settings.title }}</h3>
+						<ul>
+							{% for link in block.settings.menu.links %}
+								<li class="nav__item">
+									<a class="hover:text-accent" href="{{ link.url }}"> {{ link.title }}</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+			{% endcase %}
+		{% endfor %}
+	</div>
+	<div class="bg-accent py-3 text-center" style="background-color: {{ section.settings.bg_color }}">
+		<div class="flex justify-center mt-3 mb-3 gap-3">
+			{% for payment in shop.enabled_payment_types %}
+				{{ payment | payment_type_svg_tag }}
+			{% endfor %}
+		</div>
+		<div class="container flex justify-center gap-1" style="color: {{ section.settings.color }}">
+			{{ section.settings.text }} &copy;{{ 'now' | date: '%Y' }}
+		</div>
+	</div>
+</footer>
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Footer Text",
+      "default": "<p>All Rights Reserved.</p>"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Footer Background Color"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "default": "#ffffff",
+      "label": "Footer Text Color"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Footer Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "default": "Footer Menu Title",
+          "label": "Title"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Footer Menu",
+          "default": "footer"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

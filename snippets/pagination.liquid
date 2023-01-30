@@ -1,17 +1,20 @@
 {% if paginate.pages > 0 %}
-	<nav role="navigation" class="flex justify-center my-8">
-		{% if paginate.previous %}
-			<a href="{{ paginate.previous.url }}" class="border border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-white px-8 py-3 mx-1 rounded-sm font-medium">{{ paginate.previous.title }}</a>
-		{% endif %}
+	<nav role="navigation" class="flex justify-center mt-10 gap-3">
 		{% for part in paginate.parts %}
-		{% if part.is_link %}
-			<a href="{{ part.url }}" class="border border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-white px-8 py-3 mx-1 rounded-sm font-medium">{{ part.title }}</a>
-			{% else %}
-				<span class="border border-gray-600  bg-gray-600 text-white px-8 py-3 mx-1 rounded-sm font-medium">{{ part.title }}</span>
-		{% endif %}
+			{% if part.is_link %}
+				<a 
+					href="{{ part.url }}"
+					class="text-center w-[40px] h-[40px] flex justify-center items-center font-bold border rounded hover:bg-accent hover:border-accent hover:text-white"
+				>
+					{{ part.title }}
+				</a>
+				{% else %}
+					<span
+						class="text-center w-[40px] h-[40px] flex justify-center items-center font-bold border rounded bg-accent border-accent text-white"
+					>
+						{{ part.title }}
+					</span>
+			{% endif %}
 		{% endfor %}
-		{% if paginate.next %}
-			<a href="{{ paginate.next.url }}" class="border border-gray-600 text-gray-600 hover:bg-gray-600 hover:text-white px-8 py-3 mx-1 rounded-sm font-medium">{{ paginate.next.title }}</a>
-		{% endif %}
 	</nav>
 {% endif %}

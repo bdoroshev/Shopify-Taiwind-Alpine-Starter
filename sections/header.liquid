@@ -1,158 +1,95 @@
-{% liquid
-	if section.settings.menu.links == blank
-		assign main_menu_linklist = linklists[section.settings.menu].links
-	else
-		assign main_menu_linklist = section.settings.menu.links
-	endif
-%}
-
-<div class="relative bg-white" x-data="{ mobileMenuOpen: false, searchBarOpen: false }" x-cloak>
-  <div class="mx-auto px-4 sm:px-6">
-    <div class="flex justify-between items-center py-6 md:justify-start md:space-x-10">
-      <!-- STORE NAME / STORE LOGO -->
-      <div class="flex justify-start lg:flex-1 truncate">
-        <h1 class="text-xl font-bold truncate">
-          {{ shop.name }}
-        </h1>
-      </div>
-			<div class="-mr-2 -my-2 ml-3 md:hidden">
-				<button x-on:click="{ mobileMenuOpen = true }" type="button" class="bg-white p-2 inline-flex items-center justify-center focus:outline-none">
-					{% render 'icon-menu' %}
-				</button>
-			</div>
-      <!-- NAVIGATION MENU -->
-      <nav class="hidden md:flex space-x-10">
-        {% for link in main_menu_linklist %} 
-					{% if link.links != blank %}
-						{% assign link_handle = link.handle | replace: '-', '_' %}
-						<div class="relative" x-data="{ {{ link_handle }}: false }">
-							<button x-on:click="{{ link_handle }} = !{{ link_handle }}" class="inline-flex items-center">
-								{{ link.title }}
-								{% render 'icon-dropdown' %}
-							</button>
-
-							<div
-							x-transition:enter="transition ease-out duration-300"
-							x-transition:enter-start="opacity-0 translate-y-3"
-							x-transition:enter-end="opacity-100 translate-y-0"
-							x-transition:leave="transition ease-out duration-300"
-							x-transition:leave-start="opacity-100 translate-y-0"
-							x-transition:leave-end="opacity-0 translate-y-3"
-							x-show="{{ link_handle }}" @click.away="{{ link_handle }} = false"
-							class="absolute z-10 -ml-5 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2">
-								<div class="shadow-lg border ring-black ring-opacity-5 overflow-hidden rounded-lg">
-									<div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
-										{% for childlink in link.links %}
-											<a href="{{ childlink.url }}" class="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-100">
-												<div class="ml-4">
-													<p class="text-gray-900 text-base font-medium">
-														{{ childlink.title }}
-													</p>
-												</div>
-											</a>
-										{% endfor %}
-									</div>
-								</div>
-							</div>
-						</div>
-						{% else %}
-							<a href="{{ link.url }}" class="text-base text-gray-500 hover:text-gray-700">{{ link.title }}</a>
-					{% endif %}
-				{% endfor %}
-      </nav>
-      <!-- CART BUTTON / ACCOUNT LINKS If ENABLED -->
-			<div class="hidden md:flex items-center justify-end md:flex-1 space-x-5">
-				<button x-on:click="searchBarOpen = true" type="button" class="whitespace-nowrap text-base text-gray-500 hover:text-gray-900">{% render 'icon-search' %}</button>
-				<a href="{{ routes.cart_url }}" class="whitespace-nowrap text-base text-gray-500 hover:text-gray-900">{% render 'icon-shopping-bag' %}</a>
-				{% if shop.customer_accounts_enabled %}
-					{% if customer %}
-						<a href="{{ routes.account_url }}" class="text-base text-gray-500 hover:text-gray-900">account</a>
-						{{ 'Log out' | customer_logout_link | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"' }}
-						{% else %}
-						{{ 'Log in' | customer_login_link | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"' }}
-						{{ 'Register' | customer_register_link | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"' }}
-					{% endif %}
+<header>
+	<div class="container">
+		<div class="header grid grid-cols-[1fr_2fr_1fr] items-center md:py-[40px] py-[20px]">
+			<!-- Logo -->
+			<div class="header__logo">
+				{% if section.settings.logo != blank %}
+					<a href="/">
+						{{ section.settings.logo | image_url: width: 200 | image_tag: loading: 'lazy' }}
+					</a>
+					{% else %}
+						<a href="/">
+							{{ shop.name }}
+						</a>
 				{% endif %}
 			</div>
-			<!-- MOBILE MENU CONTAINER -->
-			<div x-show="mobileMenuOpen" class="absolute z-10 top-0 left-0 insert-x-0 transform origin-top-left md:hidden">
-				<div class="shadow-lg rounder-lg ring-1 ring-black ring-opacity-5 bg-white w-screen">
-					<div class="p-5 divide-y-2 divide-gray-50">
-						<!-- MOBILE MENU TITLE -->
-							<div class="flex items-center justify-between pb-3">
-								<h1 class="text-lg text-gray-500"> {{ section.settings.mobile_menu_title }} </h1>
-								<div class="-mr-2">
-									<button x-on:click="mobileMenuOpen = false" type="button" class="bg-white rounded-md p-2 text-gray-500">
-										{% render 'icon-close' %}
-									</button>
-								</div>
-							</div>
-						<!-- NAVIGATION LINKS FOR MOBILE MENU -->
-						<div class="pt-3">
-							<nav class="grid gap-y-7">
-								{% for link in main_menu_linklist %}
-									{% if link.links != blank %}
-									{% assign mobile_link_handle = link.handle | replace: '-', '_' %}
-									<div class="ralative" x-data="{ {{ mobile_link_handle }}: false }">
-										<button x-on:click="{{ mobile_link_handle }} = !{{ mobile_link_handle }}" class="text-base text-gray-500 hover:text-gray-900 flex items-center justify-between w-full">
-											<div>{{ link.title }}</div>
-											{% render 'icon-dropdown' %}
-										</button>
 
-										<div x-show="{{ mobile_link_handle }}" class="grid gap-y-7 py-3">
-											{% for childlink in link.links %}
-												<a
-													href="{{ childlink.url }}"
-													class="-m-3 p-3 mt-2 flex items-center rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-50">
-														<span class="ml-3">{{ childlink.title }}</span>
-												</a>
-											{% endfor %}
-										</div>
-									</div>
-										{% else %}
-											<a href="{{ link.url }}">{{ link.title }}</a>
-									{% endif %}
-								{% endfor %}
-							</nav>
-						</div>
-					</div>
+			<!-- Navigation -->
+			<div class="-order-1 md:relative md:order-none" x-data="{ showSearch: false }">
+				<div 
+					class="absolute -top-3 w-full bg-white z-10"
+					x-transition
+					x-cloak
+					x-show="showSearch"
+					@toggle-search.window="showSearch = !showSearch"
+				>
+					{% render 'search-input', class: 'hover:stroke-accent w-10' %}
 				</div>
+				{% render 'header-navigation' %}
 			</div>
-		</div>
-	</div>
-	<div x-show="searchBarOpen" class="w-full absolute top-0 bg-white border">
-		<button type="button" x-on:click="searchBarOpen = false" class="absolute top-0 right-0 mr-5 mt-5 text-gray-500">
-			{% render 'icon-close' %}
-		</button>
-		<div class="h-40 flex justify-center items-center">
-			<form action="{{ routes.search_url }}" method="GET" class="flex-auto">
-				<div class="relative text-gray-500 px-10 border">
-					<input type="search" name="q" placeholder="Search" class="w-full  bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none">
-					<button type="submit" class="absolute right-0 top-0 mt-2 mr-2 md:mr-20">
-						{% render 'icon-search' %}
-					</button>
+
+			<!-- Icons -->
+			<div class="header__icons flex items-center justify-end md:gap-3 gap-0" x-data="{ cart_count: {{ cart.item_count }}, showSearch: false }">
+
+				<button 
+					type="button"
+					title="Search button"
+					class="hidden md:block"
+					@click="$dispatch('toggle-search'); showSearch = !showSearch"
+				>
+					<div x-show="!showSearch">
+						{% render 'icon-search', class: 'w-10 stroke-textColor hover:stroke-accent' %}
+					</div>
+					<div x-show="showSearch">
+						{% render 'icon-close', class: 'w-5 scale-150 origin-right fill-textColor hover:fill-accent' %}
+					</div>
+				</button>
+
+        {%- if shop.customer_accounts_enabled -%}
+          <div class="account-menu-wrapper hidden md:block">
+            <a href="{{ routes.account_url }}" 
+              title="account link"
+						>
+              {% render 'icon-account', class: 'w-10 mx-auto stroke-textColor hover:stroke-accent' %}
+            </a>
+          </div>
+        {%- endif -%}
+
+				<div
+      	  @cart-count-updated.window="cart_count = $event.detail"
+				>
+					<a
+						title="Cart button"
+						class="relative text-center group cursor-pointer"
+						href="{{ routes.cart_url }}"
+						{% comment %} @click.prevent="$dispatch('toggle-cart'), document.body.classList.add('overflow-hidden')" {% endcomment %}
+					>
+						{% render 'icon-cart', class: 'w-10 stroke-textColor group-hover:stroke-accent' %}
+						<span x-text="cart_count" class="cart__count min-w-[22px] text-sm min-h-[22px] absolute grid place-content-center rounded-full -top-3 -right-1 text-white bg-black group-hover:bg-accent"> {{ cart.item_count }} </span>
+					</a>
 				</div>
-			</form>
+				
+      </div>
+
 		</div>
 	</div>
-</div>
+</header>
 
 {% schema %}
-	{ 
-		"name": "Header",
-		"settings": [
-			{
-				"type": "text",
-				"id": "mobile_menu_title",
-				"default": "Menu",
-				"label": "Mobile Menu Title"
-			},
-			{
-				"type": "link_list",
-				"id": "menu",
-				"default": "main-menu",
-				"label" : "Heading Navigation Menu"
-			}
-		]
-	}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "default": "main-menu",
+      "label": "Menu"
+    }
+  ]
+}
 {% endschema %}

@@ -1,0 +1,182 @@
+<div class="container">
+  <article itemscope itemtype="https://schema.org/BlogPosting">
+    <div class="text-center">
+      <a
+        href="{{ blog.url }}"
+        class="link uppercase"
+      >
+        {{- blog.title -}}
+      </a>
+      <h1 class="text-3xl font-mediun" itemprop="headline">
+        {{ article.title }}
+      </h1>
+    </div>
+
+    <div
+      class="text-center"
+      itemscope
+      itemtype="https://schema.org/Person"
+    >
+      {% if section.settings.enable_author %}
+        <small itemprop="author">{{ article.author }}</small>
+      {% endif %}
+    </div>
+
+    <div class="text-center">
+      {% if section.settings.enable_published_date %}
+        <time
+          itemprop="datePublished dateCreated"
+          datetime="{{ article.published_at | date: '%b %d, %Y' }}"
+        >
+          {{- article.published_at | date: format: 'date' -}}
+        </time>
+      {% endif %}
+    </div>
+
+    <div
+      itemprop="image"
+      class="bg-blue-100 rounded-lg md:mx-2 mx-auto overflow-hidden my-4"
+    >
+      {% if article.image != blank %}
+				{{ article.image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'w-full h-80 md:h-96 object-cover object-center' }}
+      {% else %}
+        {% assign placeholder_image = 'lifestyle-2' %}
+        {{
+          placeholder_image
+          | placeholder_svg_tag: 'w-full md:h-80 h-96 object-cover object-center p-5'
+        }}
+      {% endif %}
+    </div>
+
+    <div itemprop="articleBody" class="max-w-[1020px] m-auto">
+      {{ article.content }}
+    </div>
+  </article>
+
+  {% if blog.comments_enabled? %}
+    <div id="comments" class="my-8 max-w-[1020px] m-auto">
+      {% if article.comments_count > 0 %}
+        <div class="flex-1 items-center justify-center">
+          <h1 class="text-lg mb-4 font-medium">See what people are saying</h1>
+          {% paginate article.comments by 5 %}
+            {% for comment in article.comments %}
+              <div class="flex-1 border my-4 px-4 py-2 sm:px-6 sm:py-4 leading-relaxed">
+                <span class="cooment-author">{{ comment.author }}</span>
+                <span class="text-xs text-gray-400">
+                  {{- comment.created_at | date: format: 'default' -}}
+                </span>
+                <p class="text-sm">{{ comment.content }}</p>
+              </div>
+            {% endfor %}
+
+            {% render 'pagination', paginate: paginate %}
+          {% endpaginate %}
+        </div>
+      {% else %}
+        <div class="text-center">
+					<b>There are no comments in this article</b>
+				</div>
+      {% endif %}
+    </div>
+
+    <div id="comments_form" class="mb-8">
+      {% form 'new_comment', article %}
+        <div class="flex-1 mx-auto items-center justify-center max-w-[600px]">
+					{% if form.errors %}
+						<div class="flex flex-row items-center justify-center w-full my-3">
+							{% for error in form.errors %}
+								<div class="text-red-500">
+									{% render 'icon-failed' %}
+								</div>
+								<p class="text-red-500 text-sm font-bold ml-2">
+									{{ form.errors.translated_fields[error] }} - {{ form.errors.messages[error] }}
+								</p>
+							{% endfor %}
+						</div>
+					{% elsif form.posted_successfully? %}
+						<div class="flex flex-row items-center justify-center w-full gap-2 my-5">
+							<div class="text-green-500">
+								{% render 'icon-success' %}
+							</div>
+							<p class="text-green-500 font-bold text-center">
+								Comment is posted successfully
+							</p>
+						</div>
+					{% endif %}
+          <div class="px-1 grid grid-cols-2 gap-3">
+            <label
+              for="comment_author"
+              class="sr-only"
+              >Full Name</label
+            >
+            <input
+              type="text"
+              name="comment[author]"
+              id="comment_author"
+              class="input col-span-2 md:col-span-1"
+              placeholder="Full Name"
+              required
+            >
+
+            <label
+              for="comment_email"
+              class="sr-only"
+              >Email</label
+            >
+            <input
+              type="email"
+              name="comment[email]"
+              id="comment_email"
+              class="input col-span-2 md:col-span-1"
+              placeholder="Email"
+              required
+            >
+
+            <label
+              for="comment_content"
+              class="sr-only"
+              >Comment</label
+            >
+            <textarea
+              name="comment[body]"
+              id="comment_content"
+              required
+              placeholder="Comment"
+              class="input col-span-2 resize-none h-20 py-2"
+            ></textarea>
+          </div>
+					<div class="text-center">
+						<button type="submit" class="button w-full md:w-fit mt-5">Post comment</button>
+					</div>
+        </div>
+      {% endform %}
+    </div>
+  {% endif %}
+</div>
+
+<script type="application/js+db">
+  {
+  	"@context": "http://schema.org",
+  	"@type": "BlogPosting",
+  	"headline": {{ article.title | json }},
+  	"articleBody": {{ article.content | strip_html | json }},
+  	{% if article.excerpt != blank %}
+  		"description": {{ article.excerpt | strip_html | json }},
+  	{% endif %}
+  	{% if article.image %}
+  		"image": [
+  			{{ article.image | image_url: 1200 | prepend: 'https:' | json }}
+  		],
+  	{% endif %}
+  	"datePublished": {{ article.published_at | date: format: "default" | json }},
+  	"dateCreated": {{ article.created_at | date: format: "default" | json }},
+  	"author": {
+  		"@type": "Person",
+  		"name": {{ article.author | json }}
+  	},
+  	"publisher": {
+  		"@type": "Organiztion",
+  		"name": {{ shop.name | json }}
+  	}
+  }
+</script>

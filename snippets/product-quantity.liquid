@@ -1,0 +1,25 @@
+<div 
+	class="inline-flex text-md font-bold items-center border rounded"
+	x-data="{ 
+		quantity: {% if product.quantity > 1 %} {{ product.quantity }} {% else %} 1 {% endif %},
+		minus(value) {
+			this.quantity = parseInt(this.quantity);
+			(this.quantity == 1) ? this.quantity = 1 : this.quantity -= value;
+		},
+		plus(value) {
+			this.quantity = parseInt(this.quantity);
+			this.quantity += value;
+		}
+	}"
+	x-init="$watch('quantity', value =>  $dispatch('quantity-changed', { quantity: value }))"
+>
+	<button class="px-4 py-2 border-r cursor-pointer" type="button" @click.debounce="[minus(1){% if cart_page %}, Functions.changeQuantity({{ product_index }}, quantity), loading = true{% endif %}]">
+		<span class="sr-only">decrease quantity</span>
+		&minus;
+	</button>
+	<input type="number" class="product__number text-center max-w-[50px] w-full" name="quantity" min="1" onkeydown="return false"  x-model="quantity" />
+	<button class="px-4 py-2 border-l cursor-pointer" type="button" @click.debounce="[plus(1){% if cart_page %}, Functions.changeQuantity({{ product_index }}, quantity), loading = true{% endif %}]">
+		<span class="sr-only">increase quantity</span>
+		&plus;
+	</button>
+</div>

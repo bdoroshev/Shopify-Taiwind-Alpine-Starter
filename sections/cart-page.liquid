@@ -1,0 +1,35 @@
+
+
+<div class="container"
+    x-data="{
+      loading: false,
+      updateCart(){
+          // send fetch reqeust to update cart
+          fetch('/?view=ajax-cart-page')
+          .then(response => response.text())
+          .then(cartData => {
+              $refs.cart_content.innerHTML = cartData;
+              // This code is use to parse json object. for cart count
+              var el = document.createElement('div');
+              el.innerHTML = cartData;
+              var cartCount = JSON.parse(el.querySelector('[data-options]').innerHTML).item_count;
+              $dispatch('cart-count-updated', cartCount);
+              this.loading = false;
+          })
+      }
+    }"
+		@update-cart.window="updateCart;"
+	
+	>
+
+	<h1 class="text-3xl font-bold mb-5">Cart</h1>
+
+	<hr>
+
+	{% render 'loader' %}
+
+	<div class="" x-ref="cart_content">
+		{% render 'cart-page-content' %}
+	</div>
+
+</div>

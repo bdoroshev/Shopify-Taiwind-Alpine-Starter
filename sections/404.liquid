@@ -1,0 +1,39 @@
+<div class="container text-center flex flex-col items-center justify-center my-20">
+		<h1 class="text-5xl font-bold">{{ section.settings.title }}</h1>
+		<div class="mt-3 mb-5">
+			{{ section.settings.text }}
+		</div>
+		<a href="{{ section.settings.button_url }}" class="button">{{ section.settings.button_text }}</a>
+</div>
+
+{% schema %}
+{
+  "name": "404",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "404, not found"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>The page you were looking for does not exist</p>"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Continue Shopping"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,49 @@
+<div
+	x-data="{ 
+		showCartDrawer: false,
+		loading: false,
+		updateCart(){
+			fetch('/?view=ajax-cart-drawer')
+			.then(response => response.text())
+			.then(cartData => {
+				$refs.cart_drawer_content.innerHTML = cartData;
+				// This code is use to parse json object. for cart count
+				var el = document.createElement('div');
+				el.innerHTML = cartData;
+				var cartCount = JSON.parse(el.querySelector('[data-options]').innerHTML).item_count;
+				$dispatch('cart-count-updated', cartCount);
+				this.loading = false;
+			})
+		}
+	}"
+	@update-cart.window="updateCart"
+	@toggle-cart.window="showCartDrawer = !showCartDrawer"
+>
+	<div 
+		x-cloak
+		x-show="showCartDrawer"
+		@click="showCartDrawer = false; document.body.classList.remove('overflow-hidden')"
+		class="overlay transition-all z-30 w-screen h-screen top-0 fixed bg-textColor/70"
+	>
+	</div>
+	
+	<div
+		x-cloak
+		:class="showCartDrawer ? 'right-0' : '-right-[100vw]'"
+		class="p-5 transition-all z-30 bg-white fixed top-0 md:w-[500px] w-full h-screen"
+	>
+		<div class="flex items-center justify-between mb-4">
+			<h2 class="text-3xl font-bold">Cart</h2>
+			<span 
+				class="cursor-pointer"
+				@click="showCartDrawer = false; document.body.classList.remove('overflow-hidden')"
+			>
+				{% render 'icon-close', class: 'max-w-[30px] fill-textColor hover:fill-accent' %}
+			</span>
+		</div>
+		{% render 'loader' %}
+		<div x-ref="cart_drawer_content">
+			{% render 'cart-drawer-content' %}
+		</div>
+	</div>
+</div>

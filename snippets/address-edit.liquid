@@ -1,0 +1,206 @@
+<div
+  class="fixed z-30 inset-0 overflow-y-auto"
+  x-show="openEdit"
+  x-transition.opacity
+  aria-modal="true"
+  aria-labelledby="modal-headline"
+  x-cloak
+>
+  <div class="flex items-center justify-center min-h-screen">
+    <div
+      class="fixed inset-0 bg-textColor/70"
+      x-show="openEdit"
+      @click="openEdit = false"
+    ></div>
+
+    <!--
+      This element is to trick the browser into centering the modal contents.
+    -->
+
+    <div
+      class="bg-white overflow-hidden relative shadow-xl w-full max-w-[900px] mx-[20px] p-6 rounded"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="Edit Address"
+    >
+      <form
+        method="post"
+        :action="'/account/addresses/'+address.id"
+        accept-charset="UTF-8"
+      >
+        <input type="hidden" name="form_type" value="customer_address">
+        <input type="hidden" name="utf8" value="✓">
+
+        <div class="new-address-form">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-lg font-bold">Edit Address</h3>
+            <button type="button" @click="openEdit = false">
+              {% render 'icon-close',
+                class: 'w-5 scale-150 origin-right fill-textColor hover:fill-accent'
+              %}
+            </button>
+          </div>
+          <div class="grid md:grid-cols-2 gap-3 grid-cols-1">
+						<label :for="'first_name'+address.id" class="sr-only">
+							First Name
+						</label>
+						<input
+							type="text"
+							name="address[first_name]"
+							:value="address.first_name"
+							autocapitalize="words"
+							required
+							placeholder="First Name"
+							:id="'first_name'+address.id"
+							class="input"
+						>
+
+						<label :for="'last_name'+address.id" class="sr-only">
+							Last Name
+						</label>
+						<input
+							type="text"
+							name="address[last_name]"
+							:value="address.last_name"
+							:id="'last_name'+address.id"
+							required
+							autocapitalize="words"
+							placeholder="Last Name"
+							class="input"
+						>
+
+						<label :for="'company'+address.id" class="sr-only">
+							Company
+						</label>
+						<input
+							type="text"
+							name="address[company]"
+							:value="address.company"
+							:id="'company'+address.id"
+							placeholder="Company"
+							autocapitalize="words"
+							class="input"
+						>
+
+						<label :for="'phone'+address.id" class="sr-only"> Phone </label>
+						<input
+							type="tel"
+							name="address[phone]"
+							:value="address.phone"
+							:id="'phone'+address.id"
+							placeholder="Phone"
+							autocapitalize="words"
+							class="input"
+						>
+
+						<label :for="'country'+address.id" class="sr-only">
+							Country
+						</label>
+						<select
+							x-ref="address_country"
+							name="address[country]"
+							@change="province = JSON.parse($event.target.selectedOptions[0].dataset.provinces); address.country = $event.target.selectedOptions[0].text;"
+							:value="address.country"
+							:id="'country'+address.id"
+							placeholder="Country"
+							required
+							class="input"
+						>
+							{{ country_option_tags }}
+						</select>
+
+            <div x-show="province.length > 0">
+              <label :for="'province'+address.id" class="sr-only">
+                Province
+              </label>
+
+              <select
+                name="address[province]"
+                :value="address.province"
+                :id="'province'+address.id"
+                placeholder="Province"
+                autocapitalize="words"
+                class="input"
+              >
+                <template x-for="item in province">
+                  <option :value="item[0]" x-text="item[0]"></option>
+                </template>
+              </select>
+            </div>
+
+						<label for="city" class="sr-only"> City </label>
+						<input
+							type="text"
+							name="address[city]"
+							:value="address.city"
+							:id="'city'+address.id"
+							placeholder="City"
+							required
+							autocapitalize="words"
+							class="input"
+						>
+
+						<label :for="'address1'+address.id" class="sr-only">
+							Address
+						</label>
+						<input
+							type="text"
+							name="address[address1]"
+							:value="address.address1"
+							:id="'address1'+address.id"
+							placeholder="Address1"
+							required
+							autocapitalize="words"
+							class="input"
+						>
+
+						<label :for="'address2'+address.id" class="sr-only">
+							Address 2
+						</label>
+						<input
+							type="text"
+							name="address[address2]"
+							value="{{ form.address2 }}"
+							:value="address.address2"
+							:id="'address2'+address.id"
+							autocapitalize="words"
+							placeholder="Address2"
+							class="input"
+						>
+
+						<label :for="'zip'+address.id" class="sr-only"> Zip </label>
+						<input
+							type="text"
+							name="address[zip]"
+							:value="address.zip"
+							:id="'zip'+address.id"
+							placeholder="Zip"
+							required
+							autocapitalize="words"
+							class="input"
+						>
+          </div>
+        </div>
+
+        <div class="flex md:flex-row flex-col justify-between mt-3 gap-5">
+          <label
+            :for="'address_default_address_update'+address.id"
+            class="whitespace-nowrap cursor-pointer flex items-center"
+          >
+            <input
+              type="checkbox"
+              name="address[default]"
+              :checked="address.default"
+              :id="'address_default_address_update'+address.id"
+              class="w-5 h-5 mr-3 accent-accent"
+            >
+            Set Address as Default
+          </label>
+
+          <button type="submit" class="button w-full">Edit Address</button>
+          <input type="hidden" name="_method" value="put">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
